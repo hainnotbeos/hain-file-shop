@@ -6,23 +6,13 @@ const Database = require("better-sqlite3");
 require("dotenv").config();
 
 const app = express();
-app.use((req, res, next) => {
-    console.log("📡 REQUEST:", req.method, req.url);
-    next();
-});
 const PORT = process.env.PORT || 3000;
 
-// ========================================
-// ĐƯỜNG DẪN
-// ========================================
+const ADMIN_PASSWORD = "kngan#1";
 
 const PUBLIC_DIR = path.join(__dirname, "public");
 const PRIVATE_DIR = path.join(__dirname, "private-files");
 const DATA_DIR = path.join(__dirname, "data");
-
-// ========================================
-// TẠO THƯ MỤC
-// ========================================
 
 fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 fs.mkdirSync(PRIVATE_DIR, { recursive: true });
@@ -32,73 +22,40 @@ console.log("📁 PUBLIC:", PUBLIC_DIR);
 console.log("📁 PRIVATE:", PRIVATE_DIR);
 console.log("📁 DATA:", DATA_DIR);
 
-// ========================================
-// DATABASE
-// ========================================
-
 const db = new Database(
     path.join(DATA_DIR, "shop.db")
 );
 
 console.log("✅ Database đã kết nối");
 
-// ========================================
-// TẠO BẢNG SẢN PHẨM
-// ========================================
-
 db.exec(`
     CREATE TABLE IF NOT EXISTS products (
-
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-
         name TEXT NOT NULL,
-
         description TEXT DEFAULT '',
-
         price INTEGER NOT NULL,
-
         category TEXT DEFAULT 'Khác',
-
         file_name TEXT NOT NULL,
-
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-
     )
 `);
 
 console.log("✅ Bảng products OK");
 
-// ========================================
-// TẠO BẢNG ĐƠN HÀNG
-// ========================================
-
 db.exec(`
     CREATE TABLE IF NOT EXISTS orders (
-
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-
         order_code TEXT UNIQUE NOT NULL,
-
         customer_name TEXT NOT NULL,
-
         customer_email TEXT DEFAULT '',
-
         product_id INTEGER NOT NULL,
-
         amount INTEGER NOT NULL,
-
         status TEXT DEFAULT 'pending',
-
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-
     )
 `);
 
 console.log("✅ Bảng orders OK");
-
-// ========================================
-// MIDDLEWARE
-// ========================================
 
 app.use(express.json());
 
@@ -108,67 +65,68 @@ app.use(
     })
 );
 
-// ========================================
-// UPLOAD FILE
-// ========================================
-
 const storage = multer.diskStorage({
-
-    destination: (req, file, cb) => {
-
-        cb(
-            null,
-            PRIVATE_DIR
-        );
-
+    destination: function (req, file, cb) {
+        cb(null, PRIVATE_DIR);
     },
 
-    filename: (req, file, cb) => {
-
+    filename: function (req, file, cb) {
         const safeName =
-
             Date.now() +
-
             "-" +
-
             file.originalname.replace(
                 /[^a-zA-Z0-9._-]/g,
                 "_"
             );
 
-        cb(
-            null,
-            safeName
-        );
-
+        cb(null, safeName);
     }
-
 });
 
 const upload = multer({
-
     storage: storage,
 
     limits: {
-
-        fileSize:
-            500 * 1024 * 1024
-
+        fileSize: 500 * 1024 * 1024
     }
-
 });
 
-// ========================================
-// API: LẤY DANH SÁCH SẢN PHẨM
-// ========================================
+app.post(
+    "/api/admin/login",
+    function (req, res) {
+        try {
+            const password = req.body.password;
+
+            if (password !== ADMIN_PASSWORD) {
+                return res.status(401).json({
+                    success: false,
+                    error: "Mật khẩu Admin không đúng"
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Đăng nhập Admin thành công"
+            });
+
+        } catch (error) {
+            console.error(
+                "❌ LỖI ADMIN LOGIN:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                error: "Lỗi server"
+            });
+        }
+    }
+);
 
 app.get(
     "/api/products",
-
-    (req, res) => {
-
+    function (req, res) {
         try {
-
             const products = db
                 .prepare(`
                     SELECT
@@ -182,160 +140,110 @@ app.get(
                 `)
                 .all();
 
-            res.status(200).json(
-                products
-            );
+            return res.status(200).json(products);
 
         } catch (error) {
-
             console.error(
                 "❌ LỖI LẤY SẢN PHẨM:",
                 error
             );
 
-            res.status(500).json({
-
+            return res.status(500).json({
                 success: false,
-
-                error:
-                    error.message
-
+                error: error.message
             });
-
         }
-
     }
 );
 
-// ========================================
-// API: ADMIN THÊM SẢN PHẨM
-// ========================================
-
 app.post(
-
     "/api/admin/products",
-
     upload.single("file"),
-
-    (req, res) => {
-
-        console.log("");
-        console.log(
-            "================================"
-        );
-
-        console.log(
-            "🔥 API THÊM SẢN PHẨM ĐƯỢC GỌI"
-        );
-
-        console.log(
-            "BODY:",
-            req.body
-        );
-
-        console.log(
-            "FILE:",
-            req.file
-        );
-
-        console.log(
-            "================================"
-        );
-
-
+    function (req, res) {
         try {
+            const name = req.body.name;
+            const description = req.body.description || "";
+            const price = req.body.price;
+            const category = req.body.category || "Khác";
+            const password = req.body.password;
 
-            const {
+            console.log("📦 Thêm sản phẩm:");
+            console.log("Tên:", name);
+            console.log("Giá:", price);
+            console.log("Danh mục:", category);
+            console.log("File:", req.file);
 
-                name,
+            if (password !== ADMIN_PASSWORD) {
+                if (
+                    req.file &&
+                    fs.existsSync(req.file.path)
+                ) {
+                    fs.unlinkSync(req.file.path);
+                }
 
-                description,
-
-                price,
-
-                category
-
-            } = req.body;
-
-
-            // KIỂM TRA TÊN
-
-            if (!name) {
-
-                return res.status(400).json({
-
+                return res.status(401).json({
                     success: false,
-
-                    error:
-                        "Thiếu tên sản phẩm"
-
+                    error: "Mật khẩu Admin không đúng"
                 });
-
             }
 
+            if (!name || !name.trim()) {
+                if (
+                    req.file &&
+                    fs.existsSync(req.file.path)
+                ) {
+                    fs.unlinkSync(req.file.path);
+                }
 
-            // KIỂM TRA GIÁ
+                return res.status(400).json({
+                    success: false,
+                    error: "Thiếu tên sản phẩm"
+                });
+            }
 
             if (
                 price === undefined ||
                 price === null ||
                 price === ""
             ) {
+                if (
+                    req.file &&
+                    fs.existsSync(req.file.path)
+                ) {
+                    fs.unlinkSync(req.file.path);
+                }
 
                 return res.status(400).json({
-
                     success: false,
-
-                    error:
-                        "Thiếu giá sản phẩm"
-
+                    error: "Thiếu giá sản phẩm"
                 });
-
             }
-
-
-            // KIỂM TRA FILE
 
             if (!req.file) {
-
                 return res.status(400).json({
-
                     success: false,
-
-                    error:
-                        "Chưa chọn file sản phẩm"
-
+                    error: "Chưa chọn file sản phẩm"
                 });
-
             }
 
-
-            // CHUYỂN GIÁ SANG NUMBER
-
-            const productPrice =
-                Number(price);
-
+            const productPrice = Number(price);
 
             if (
-                !Number.isFinite(
-                    productPrice
-                ) ||
+                !Number.isFinite(productPrice) ||
                 productPrice < 0
             ) {
+                if (
+                    req.file &&
+                    fs.existsSync(req.file.path)
+                ) {
+                    fs.unlinkSync(req.file.path);
+                }
 
                 return res.status(400).json({
-
                     success: false,
-
-                    error:
-                        "Giá sản phẩm không hợp lệ"
-
+                    error: "Giá sản phẩm không hợp lệ"
                 });
-
             }
-
-
-            // THÊM VÀO DATABASE
 
             const result = db
                 .prepare(`
@@ -351,19 +259,12 @@ app.post(
                     (?, ?, ?, ?, ?)
                 `)
                 .run(
-
                     name.trim(),
-
-                    description || "",
-
+                    description,
                     productPrice,
-
-                    category || "Khác",
-
+                    category,
                     req.file.filename
-
                 );
-
 
             console.log(
                 "✅ THÊM SẢN PHẨM THÀNH CÔNG"
@@ -374,110 +275,61 @@ app.post(
                 result.lastInsertRowid
             );
 
-            console.log(
-                "FILE:",
-                req.file.filename
-            );
-
-
             return res.status(200).json({
-
                 success: true,
-
-                productId:
-                    result.lastInsertRowid,
-
-                message:
-                    "Thêm sản phẩm thành công"
-
+                productId: result.lastInsertRowid,
+                message: "Thêm sản phẩm thành công"
             });
 
-
         } catch (error) {
-
-            console.error("");
-
             console.error(
-                "❌❌❌ LỖI THÊM SẢN PHẨM ❌❌❌"
-            );
-
-            console.error(
+                "❌ LỖI THÊM SẢN PHẨM:",
                 error
             );
 
-            console.error(
-                "MESSAGE:",
-                error.message
-            );
-
-            console.error(
-                "STACK:",
-                error.stack
-            );
-
+            if (
+                req.file &&
+                fs.existsSync(req.file.path)
+            ) {
+                try {
+                    fs.unlinkSync(req.file.path);
+                } catch (deleteError) {
+                    console.error(
+                        "❌ Không thể xóa file:",
+                        deleteError
+                    );
+                }
+            }
 
             return res.status(500).json({
-
                 success: false,
-
                 error:
                     error.message ||
-
                     "Không thể thêm sản phẩm"
-
             });
-
         }
-
     }
-
 );
 
-// ========================================
-// API: TẠO ĐƠN HÀNG
-// ========================================
-
 app.post(
-
     "/api/orders",
-
-    (req, res) => {
-
+    function (req, res) {
         try {
-
-            console.log(
-                "📦 Nhận yêu cầu tạo đơn:",
-                req.body
-            );
-
-
-            const {
-
-                productId,
-
-                customerName,
-
-                customerEmail
-
-            } = req.body;
-
+            const productId = req.body.productId;
+            const customerName = req.body.customerName;
+            const customerEmail =
+                req.body.customerEmail || "";
 
             if (
                 !productId ||
                 !customerName
             ) {
-
                 return res.status(400).json({
-
                     success: false,
-
                     error:
                         "Thiếu mã sản phẩm hoặc tên khách hàng"
-
                 });
-
             }
-
 
             const product = db
                 .prepare(`
@@ -485,35 +337,18 @@ app.post(
                     FROM products
                     WHERE id = ?
                 `)
-                .get(
-                    Number(productId)
-                );
-
+                .get(Number(productId));
 
             if (!product) {
-
                 return res.status(404).json({
-
                     success: false,
-
                     error:
                         "Không tìm thấy sản phẩm"
-
                 });
-
             }
 
-
-            // TẠO MÃ ĐƠN
-
             const orderCode =
-
-                "HAIN" +
-
-                Date.now();
-
-
-            // LƯU ĐƠN
+                "HAIN" + Date.now();
 
             db
                 .prepare(`
@@ -530,88 +365,46 @@ app.post(
                     (?, ?, ?, ?, ?, ?)
                 `)
                 .run(
-
                     orderCode,
-
                     customerName,
-
-                    customerEmail || "",
-
+                    customerEmail,
                     product.id,
-
                     product.price,
-
                     "pending"
-
                 );
-
 
             console.log(
                 "✅ TẠO ĐƠN THÀNH CÔNG:",
                 orderCode
             );
 
-
-            res.status(200).json({
-
+            return res.status(200).json({
                 success: true,
-
-                orderCode:
-
-                    orderCode,
-
-                amount:
-
-                    product.price,
-
-                productName:
-
-                    product.name
-
+                orderCode: orderCode,
+                amount: product.price,
+                productName: product.name
             });
-
 
         } catch (error) {
-
             console.error(
-
                 "❌ LỖI TẠO ĐƠN:",
-
                 error
-
             );
 
-
-            res.status(500).json({
-
+            return res.status(500).json({
                 success: false,
-
                 error:
-
                     error.message ||
-
                     "Lỗi server khi tạo đơn hàng"
-
             });
-
         }
-
     }
-
 );
 
-// ========================================
-// API: KIỂM TRA ĐƠN HÀNG
-// ========================================
-
 app.get(
-
     "/api/orders/:code/status",
-
-    (req, res) => {
-
+    function (req, res) {
         try {
-
             const order = db
                 .prepare(`
                     SELECT
@@ -621,83 +414,42 @@ app.get(
                     FROM orders
                     WHERE order_code = ?
                 `)
-                .get(
-                    req.params.code
-                );
-
+                .get(req.params.code);
 
             if (!order) {
-
                 return res.status(404).json({
-
                     success: false,
-
                     error:
                         "Không tìm thấy đơn hàng"
-
                 });
-
             }
 
-
-            res.status(200).json({
-
-                orderCode:
-
-                    order.order_code,
-
-                amount:
-
-                    order.amount,
-
-                status:
-
-                    order.status
-
+            return res.status(200).json({
+                orderCode: order.order_code,
+                amount: order.amount,
+                status: order.status
             });
-
 
         } catch (error) {
-
             console.error(
-
                 "❌ LỖI KIỂM TRA ĐƠN:",
-
                 error
-
             );
 
-
-            res.status(500).json({
-
+            return res.status(500).json({
                 success: false,
-
                 error:
-
                     error.message ||
-
                     "Lỗi server"
-
             });
-
         }
-
     }
-
 );
 
-// ========================================
-// API: DOWNLOAD FILE
-// ========================================
-
 app.get(
-
     "/api/orders/:code/download",
-
-    (req, res) => {
-
+    function (req, res) {
         try {
-
             const order = db
                 .prepare(`
                     SELECT
@@ -705,130 +457,77 @@ app.get(
                         products.file_name
                     FROM orders
                     JOIN products
-                    ON products.id =
-                       orders.product_id
+                    ON products.id = orders.product_id
                     WHERE orders.order_code = ?
                 `)
-                .get(
-                    req.params.code
-                );
-
+                .get(req.params.code);
 
             if (!order) {
-
                 return res
                     .status(404)
                     .send(
                         "Không tìm thấy đơn hàng"
                     );
-
             }
 
-
-            if (
-                order.status !== "paid"
-            ) {
-
+            if (order.status !== "paid") {
                 return res
                     .status(403)
                     .send(
                         "Đơn hàng chưa thanh toán"
                     );
-
             }
 
-
             const filePath = path.join(
-
                 PRIVATE_DIR,
-
                 order.file_name
-
             );
 
-
-            if (
-                !fs.existsSync(
-                    filePath
-                )
-            ) {
-
+            if (!fs.existsSync(filePath)) {
                 return res
                     .status(404)
                     .send(
                         "File không tồn tại"
                     );
-
             }
 
-
-            res.download(
-
-                filePath
-
-            );
-
+            return res.download(filePath);
 
         } catch (error) {
-
             console.error(
-
                 "❌ LỖI DOWNLOAD:",
-
                 error
-
             );
 
-
-            res
+            return res
                 .status(500)
                 .send(
                     "Lỗi server"
                 );
-
         }
-
     }
-
 );
 
-// ========================================
-// API: WEBHOOK THANH TOÁN
-// ========================================
-
 app.post(
-
     "/api/payment/webhook",
-
-    (req, res) => {
-
+    function (req, res) {
         try {
+            const orderCode =
+                req.body.orderCode;
 
-            const {
-
-                orderCode,
-
-                status
-
-            } = req.body;
-
+            const status =
+                req.body.status;
 
             if (
                 !orderCode ||
                 status !== "paid"
             ) {
-
                 return res.status(400).json({
-
                     success: false,
-
                     error:
                         "Webhook không hợp lệ"
-
                 });
-
             }
-
 
             const result = db
                 .prepare(`
@@ -836,221 +535,119 @@ app.post(
                     SET status = 'paid'
                     WHERE order_code = ?
                 `)
-                .run(
+                .run(orderCode);
 
-                    orderCode
-
-                );
-
-
-            if (
-                result.changes === 0
-            ) {
-
+            if (result.changes === 0) {
                 return res.status(404).json({
-
                     success: false,
-
                     error:
                         "Không tìm thấy đơn hàng"
-
                 });
-
             }
 
-
             console.log(
-
                 "💰 ĐƠN ĐÃ THANH TOÁN:",
-
                 orderCode
-
             );
 
-
-            res.status(200).json({
-
+            return res.status(200).json({
                 success: true
-
             });
-
 
         } catch (error) {
-
             console.error(
-
                 "❌ LỖI WEBHOOK:",
-
                 error
-
             );
 
-
-            res.status(500).json({
-
+            return res.status(500).json({
                 success: false,
-
                 error:
-
                     error.message ||
-
                     "Lỗi server"
-
             });
-
         }
-
     }
-
 );
 
-// ========================================
-// STATIC FILE
-// ========================================
-
 app.use(
-
-    express.static(
-
-        PUBLIC_DIR
-
-    )
-
+    express.static(PUBLIC_DIR)
 );
 
-// ========================================
-// API KHÔNG TỒN TẠI
-// ========================================
-
 app.use(
-
     "/api",
-
-    (req, res) => {
-
-        res.status(404).json({
-
+    function (req, res) {
+        return res.status(404).json({
             success: false,
-
-            error:
-                "API không tồn tại"
-
+            error: "API không tồn tại"
         });
-
     }
-
 );
 
-// ========================================
-// XỬ LÝ LỖI MULTER + SERVER
-// ========================================
-
 app.use(
-
-    (err, req, res, next) => {
-
-        console.error("");
-
+    function (err, req, res, next) {
         console.error(
-            "❌ SERVER ERROR:"
-        );
-
-        console.error(
+            "❌ SERVER ERROR:",
             err
         );
 
-
         if (
-            err.code ===
-            "LIMIT_FILE_SIZE"
+            err.code === "LIMIT_FILE_SIZE"
         ) {
-
             return res.status(400).json({
-
                 success: false,
-
                 error:
                     "File quá lớn! Tối đa 500MB"
-
             });
-
         }
-
 
         if (
-            req.path.startsWith(
-                "/api"
-            )
+            req.path.startsWith("/api")
         ) {
-
             return res.status(500).json({
-
                 success: false,
-
                 error:
-
                     err.message ||
-
                     "Lỗi server"
-
             });
-
         }
 
-
-        res
+        return res
             .status(500)
-            .send(
-                "Lỗi server"
-            );
-
+            .send("Lỗi server");
     }
-
 );
 
-// ========================================
-// START SERVER
-// ========================================
-
 app.listen(
-
     PORT,
-
-    () => {
-
+    function () {
         console.log("");
-
         console.log(
             "================================"
         );
-
         console.log(
             "       HAIN FILE SHOP"
         );
-
         console.log(
             "================================"
         );
-
         console.log(
             "🌐 Shop: http://localhost:" +
             PORT
         );
-
         console.log(
             "🔧 Admin: http://localhost:" +
             PORT +
             "/admin.html"
         );
-
+        console.log(
+            "🔐 Admin Password: Đã bật"
+        );
         console.log(
             "📦 Upload tối đa: 500MB"
         );
-
         console.log(
             "================================"
         );
-
     }
-
 );
