@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 
 <head>
@@ -8,6 +9,7 @@
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
+
 >
 
 <title>Admin - HAIN FILE SHOP</title>
@@ -125,10 +127,53 @@ pointer;
 }
 
 
+button:hover {
+
+opacity:
+0.85;
+
+}
+
+
 #status {
 
 margin-top:
 20px;
+
+}
+
+
+#loginBox {
+
+display:
+block;
+
+}
+
+
+#adminPanel {
+
+display:
+none;
+
+}
+
+
+.login-title {
+
+color:
+#ff3030;
+
+}
+
+
+.logout {
+
+margin-top:
+20px;
+
+background:
+#444;
 
 }
 
@@ -153,71 +198,124 @@ center;
 
 </head>
 
-
 <body>
 
-
 <div class="box">
-
 
 <h1>
 ⚡ HAIN FILE SHOP
 </h1>
 
+<!-- ================================= -->
 
-<h2>
-Thêm sản phẩm
+<!-- LOGIN ADMIN -->
+
+<!-- ================================= -->
+
+<div
+id="loginBox"
+>
+
+<h2
+class="login-title"
+>
+
+🔐 ADMIN
+
 </h2>
 
+<p>
+
+Nhập mật khẩu để quản lý sản phẩm.
+
+</p>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Nhập mật khẩu Admin"
+
+>
+
+<button
+onclick="loginAdmin()"
+
+>
+
+🔓 ĐĂNG NHẬP ADMIN
+
+</button>
+
+<div
+id="loginStatus"
+style="
+margin-top:15px;
+"
+>
+
+</div>
+
+</div>
+
+<!-- ================================= -->
+
+<!-- ADMIN PANEL -->
+
+<!-- ================================= -->
+
+<div
+id="adminPanel"
+>
+
+<h2>
+
+➕ THÊM SẢN PHẨM
+
+</h2>
 
 <form
 id="productForm"
 >
 
-
 <label>
 Tên sản phẩm
 </label>
-
 
 <input
 id="name"
 required
 placeholder="Ví dụ: Preset FF"
-/>
 
+>
 
 <label>
 Mô tả
 </label>
-
 
 <textarea
 id="description"
 placeholder="Mô tả sản phẩm"
 ></textarea>
 
-
 <label>
 Giá
 </label>
-
 
 <input
 id="price"
 type="number"
 required
 placeholder="50000"
-/>
 
+>
 
 <label>
 Danh mục
 </label>
 
-
 <select
 id="category"
+
 >
 
 <option value="Free Fire">
@@ -242,63 +340,268 @@ Khác
 
 </select>
 
-
 <label>
 File bán
 </label>
-
 
 <input
 id="file"
 type="file"
 required
-/>
 
+>
 
 <button
 type="submit"
+
 >
 
 ➕ THÊM SẢN PHẨM
 
 </button>
 
-
 </form>
-
 
 <div
 id="status"
 >
+
 </div>
 
+<button
+class="logout"
+onclick="logoutAdmin()"
+
+>
+
+🚪 ĐĂNG XUẤT
+
+</button>
+
+</div>
 
 <a href="/">
-← Về Hain File Shop
+
+← Về HAIN FILE SHOP
+
 </a>
 
-
 </div>
-
-
 
 <script>
 
-const form =
+
+// ========================================
+// ĐĂNG NHẬP ADMIN
+// ========================================
+
+async function loginAdmin() {
+
+
+const password =
 
 document.getElementById(
+"adminPassword"
+).value;
+
+
+const loginStatus =
+
+document.getElementById(
+"loginStatus"
+);
+
+
+if (
+!password
+) {
+
+loginStatus.innerText =
+
+"❌ Vui lòng nhập mật khẩu";
+
+return;
+
+}
+
+
+loginStatus.innerText =
+
+"⏳ Đang kiểm tra...";
+
+
+try {
+
+
+const response =
+
+await fetch(
+
+"/api/admin/login",
+
+{
+
+method:
+"POST",
+
+headers: {
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+
+JSON.stringify({
+
+password:
+password
+
+})
+
+}
+
+);
+
+
+const result =
+
+await response.json();
+
+
+if (
+!response.ok
+) {
+
+throw new Error(
+
+result.error ||
+
+"Mật khẩu không đúng"
+
+);
+
+}
+
+
+sessionStorage.setItem(
+
+"adminPassword",
+
+password
+
+);
+
+
+document.getElementById(
+"loginBox"
+).style.display =
+
+"none";
+
+
+document.getElementById(
+"adminPanel"
+).style.display =
+
+"block";
+
+
+loginStatus.innerText =
+
+"";
+
+
+}
+
+catch(error) {
+
+
+loginStatus.innerText =
+
+"❌ " +
+
+error.message;
+
+
+}
+
+}
+
+
+// ========================================
+// TỰ ĐỘNG ĐĂNG NHẬP
+// ========================================
+
+window.addEventListener(
+
+"DOMContentLoaded",
+
+function() {
+
+
+const savedPassword =
+
+sessionStorage.getItem(
+"adminPassword"
+);
+
+
+if (
+savedPassword
+) {
+
+
+document.getElementById(
+"loginBox"
+).style.display =
+
+"none";
+
+
+document.getElementById(
+"adminPanel"
+).style.display =
+
+"block";
+
+
+}
+
+}
+
+);
+
+
+// ========================================
+// ĐĂNG XUẤT
+// ========================================
+
+function logoutAdmin() {
+
+
+sessionStorage.removeItem(
+
+"adminPassword"
+
+);
+
+
+location.reload();
+
+}
+
+
+// ========================================
+// THÊM SẢN PHẨM
+// ========================================
+
+document
+.getElementById(
 "productForm"
-);
-
-
-const status =
-
-document.getElementById(
-"status"
-);
-
-
-form.addEventListener(
+)
+.addEventListener(
 
 "submit",
 
@@ -308,6 +611,28 @@ async function(event) {
 event.preventDefault();
 
 
+const password =
+
+sessionStorage.getItem(
+"adminPassword"
+);
+
+
+if (
+!password
+) {
+
+alert(
+"Bạn chưa đăng nhập Admin"
+);
+
+location.reload();
+
+return;
+
+}
+
+
 const fileInput =
 
 document.getElementById(
@@ -315,11 +640,13 @@ document.getElementById(
 );
 
 
-if(
+if (
 !fileInput.files.length
 ) {
 
-status.innerText =
+document.getElementById(
+"status"
+).innerText =
 
 "❌ Vui lòng chọn file!";
 
@@ -386,6 +713,24 @@ fileInput.files[0]
 );
 
 
+// GỬI MẬT KHẨU
+
+data.append(
+
+"password",
+
+password
+
+);
+
+
+const status =
+
+document.getElementById(
+"status"
+);
+
+
 status.innerText =
 
 "⏳ Đang tải file...";
@@ -418,12 +763,16 @@ const result =
 await response.json();
 
 
-if(
+if (
 !response.ok
 ) {
 
 throw new Error(
-result.error
+
+result.error ||
+
+"Không thể thêm sản phẩm"
+
 );
 
 }
@@ -434,7 +783,11 @@ status.innerText =
 "✅ Thêm sản phẩm thành công!";
 
 
-form.reset();
+document
+.getElementById(
+"productForm"
+)
+.reset();
 
 
 }
@@ -456,7 +809,6 @@ error.message;
 );
 
 </script>
-
 
 </body>
 
