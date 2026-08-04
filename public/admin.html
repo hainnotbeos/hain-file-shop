@@ -2,472 +2,426 @@
 <html lang="vi">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>Admin - HAIN FILE SHOP</title>
-
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-
-body {
-
-    margin: 0;
-
-    padding: 30px;
-
-    font-family: Arial, sans-serif;
-
-    background: #0b0b0f;
-
-    color: white;
-
-}
-
-
-.container {
-
-    max-width: 900px;
-
-    margin: auto;
-
-}
-
-
-.box {
-
-    background: #17171e;
-
-    padding: 25px;
-
-    margin-bottom: 20px;
-
-    border-radius: 15px;
-
-}
-
-
-h1 {
-
-    color: #ff3030;
-
-}
-
-
-input,
-textarea,
-select {
-
-    width: 100%;
-
-    padding: 12px;
-
-    margin-top: 8px;
-
-    margin-bottom: 15px;
-
-    background: #222;
-
-    color: white;
-
-    border: 1px solid #444;
-
-    border-radius: 8px;
-
-}
-
-
-button {
-
-    padding: 12px 18px;
-
-    background: #ff3030;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-
-}
-
-
-button:hover {
-
-    opacity: .8;
-
-}
-
-
-.order {
-
-    background: #222;
-
-    padding: 18px;
-
-    margin-top: 15px;
-
-    border-radius: 10px;
-
-    border: 1px solid #333;
-
-}
-
-
-.paid {
-
-    color: #22c55e;
-
-}
-
-
-.pending {
-
-    color: #facc15;
-
-}
-
-
-#adminPanel {
-
-    display: none;
-
-}
-
-
-</style>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin - HAIN FILE SHOP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #0b0b0f;
+            color: white;
+        }
+
+        .box {
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            background: #17171e;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #ff3030;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ff5050;
+            margin-top: 30px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            background: #222229;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 9px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #ff3030;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff3030;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .login-title {
+            color: #ff3030;
+        }
+
+        #loginStatus,
+        #status {
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        #adminPanel {
+            display: none;
+        }
+
+        .logout {
+            margin-top: 20px;
+            background: #444;
+        }
+
+        .back-home {
+            display: block;
+            margin-top: 25px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            color: #ff3030;
+        }
+
+        hr {
+            margin: 35px 0;
+            border: 0;
+            border-top: 1px solid #333;
+        }
+
+        .product-item {
+            background: #222229;
+            padding: 18px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .product-info {
+            color: #bbb;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .delete-button {
+            background: #b00020;
+        }
+
+        .delete-button:hover {
+            background: #d00025;
+        }
+
+        .loading {
+            color: #aaa;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .empty {
+            color: #aaa;
+            text-align: center;
+            padding: 20px;
+            background: #222229;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .box {
+                padding: 20px;
+            }
+        }
+    </style>
 
 </head>
 
-
 <body>
 
-
-<div class="container">
-
-
 <div class="box">
 
-
-<h1>
-⚡ HAIN FILE SHOP
-</h1>
-
-
-<div id="loginBox">
+    <h1>
+        ⚡ HAIN FILE SHOP
+    </h1>
 
 
-<h2>
-🔐 ĐĂNG NHẬP ADMIN
-</h2>
+    <!-- ================================= -->
+    <!-- LOGIN ADMIN -->
+    <!-- ================================= -->
+
+    <div id="loginBox">
+
+        <h2 class="login-title">
+            🔐 ADMIN
+        </h2>
+
+        <p>
+            Nhập mật khẩu để quản lý sản phẩm.
+        </p>
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Nhập mật khẩu Admin"
+        >
+
+        <button
+            type="button"
+            onclick="loginAdmin()"
+        >
+            🔓 ĐĂNG NHẬP ADMIN
+        </button>
+
+        <div id="loginStatus"></div>
+
+    </div>
 
 
-<input
-    id="adminPassword"
-    type="password"
-    placeholder="Mật khẩu Admin"
->
+    <!-- ================================= -->
+    <!-- ADMIN PANEL -->
+    <!-- ================================= -->
+
+    <div id="adminPanel">
+
+        <h2>
+            ➕ THÊM SẢN PHẨM
+        </h2>
+
+        <form id="productForm">
+
+            <label>
+                Tên sản phẩm
+            </label>
+
+            <input
+                id="name"
+                type="text"
+                required
+                placeholder="Ví dụ: Aimlock V2"
+            >
 
 
-<button
-    onclick="loginAdmin()"
->
+            <label>
+                Mô tả
+            </label>
 
-    🔓 ĐĂNG NHẬP
+            <textarea
+                id="description"
+                placeholder="Mô tả sản phẩm"
+            ></textarea>
 
-</button>
+
+            <label>
+                Giá sản phẩm
+            </label>
+
+            <input
+                id="price"
+                type="number"
+                min="0"
+                required
+                placeholder="50000"
+            >
 
 
-<p
-    id="loginStatus"
->
-</p>
+            <label>
+                Danh mục
+            </label>
 
+            <select id="category">
+
+                <option value="Free Fire">
+                    🎮 Free Fire
+                </option>
+
+                <option value="Minecraft">
+                    ⛏️ Minecraft
+                </option>
+
+                <option value="Preset">
+                    🧩 Preset
+                </option>
+
+                <option value="HUD">
+                    🎯 HUD
+                </option>
+
+                <option value="Khác">
+                    📦 Khác
+                </option>
+
+            </select>
+
+
+            <label>
+                File bán
+            </label>
+
+            <input
+                id="file"
+                type="file"
+                required
+            >
+
+
+            <button
+                type="submit"
+            >
+                ➕ THÊM SẢN PHẨM
+            </button>
+
+        </form>
+
+
+        <div id="status"></div>
+
+
+        <hr>
+
+
+        <!-- ================================= -->
+        <!-- QUẢN LÝ SẢN PHẨM -->
+        <!-- ================================= -->
+
+        <h2>
+            🗑️ QUẢN LÝ SẢN PHẨM
+        </h2>
+
+        <div id="productList">
+
+            <div class="loading">
+                ⏳ Đang tải sản phẩm...
+            </div>
+
+        </div>
+
+
+        <button
+            class="logout"
+            type="button"
+            onclick="logoutAdmin()"
+        >
+            🚪 ĐĂNG XUẤT
+        </button>
+
+    </div>
+
+
+    <a
+        href="/"
+        class="back-home"
+    >
+        ← Về HAIN FILE SHOP
+    </a>
 
 </div>
-
-
-
-<div id="adminPanel">
-<hr style="margin:30px 0;border:0;border-top:1px solid #333;">
-
-<h2>🗑️ QUẢN LÝ SẢN PHẨM</h2>
-
-<div id="productList">
-    ⏳ Đang tải sản phẩm...
-</div>
-
-<h2>
-➕ THÊM SẢN PHẨM
-</h2>
-
-
-<form
-    id="productForm"
->
-
-
-<label>
-Tên sản phẩm
-</label>
-
-
-<input
-    id="name"
-    required
-    placeholder="Ví dụ: Aimlock V2"
->
-
-
-<label>
-Mô tả
-</label>
-
-
-<textarea
-    id="description"
-></textarea>
-
-
-<label>
-Giá VNĐ
-</label>
-
-
-<input
-    id="price"
-    type="number"
-    required
-    placeholder="50000"
->
-
-
-<label>
-Danh mục
-</label>
-
-
-<select
-    id="category"
->
-
-<option>
-Free Fire
-</option>
-
-<option>
-Minecraft
-</option>
-
-<option>
-Preset
-</option>
-
-<option>
-HUD
-</option>
-
-<option>
-Khác
-</option>
-
-</select>
-
-
-<label>
-File bán
-</label>
-
-
-<input
-    id="file"
-    type="file"
-    required
->
-
-
-<button
-    type="submit"
->
-
-    📤 THÊM SẢN PHẨM
-
-</button>
-
-
-</form>
-
-
-<p
-    id="status"
->
-</p>
-
-
-<button
-    onclick="loadOrders()"
->
-
-    🔄 TẢI LẠI ĐƠN HÀNG
-
-</button>
-
-
-<button
-    onclick="logoutAdmin()"
-    style="margin-left:10px;background:#444"
->
-
-    🚪 ĐĂNG XUẤT
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-<div
-    class="box"
-    id="ordersBox"
-    style="display:none"
->
-
-
-<h2>
-📦 QUẢN LÝ ĐƠN HÀNG
-</h2>
-
-
-<div
-    id="orders"
->
-
-    Chưa tải đơn hàng.
-
-</div>
-
-
-</div>
-
-
-<div class="box">
-
-
-<a
-    href="/"
-    style="color:white"
->
-
-    ← Về HAIN FILE SHOP
-
-</a>
-
-
-</div>
-
-
-</div>
-
 
 
 <script>
 
-
 // ========================================
-// LOGIN
+// ĐĂNG NHẬP ADMIN
 // ========================================
 
 async function loginAdmin() {
 
     const password =
+        document
+            .getElementById("adminPassword")
+            .value
+            .trim();
 
-        document.getElementById(
-            "adminPassword"
-        ).value;
-
-
-    const status =
-
-        document.getElementById(
-            "loginStatus"
-        );
+    const loginStatus =
+        document.getElementById("loginStatus");
 
 
-    if (
-        !password
-    ) {
+    if (!password) {
 
-        status.innerText =
-            "❌ Nhập mật khẩu";
+        loginStatus.innerText =
+            "❌ Vui lòng nhập mật khẩu";
 
         return;
 
     }
 
 
-    status.innerText =
+    loginStatus.innerText =
         "⏳ Đang kiểm tra...";
 
 
     try {
 
         const response =
-
             await fetch(
                 "/api/admin/login",
                 {
-
-                    method:
-                        "POST",
+                    method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
-                    body:
-
-                        JSON.stringify({
-
-                            password:
-                                password
-
-                        })
-
+                    body: JSON.stringify({
+                        password: password
+                    })
                 }
             );
 
 
-        const data =
+        const result =
             await response.json();
 
 
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             throw new Error(
-                data.error
+                result.error ||
+                "Mật khẩu không đúng"
             );
 
         }
@@ -479,15 +433,27 @@ async function loginAdmin() {
         );
 
 
-        showAdmin();
+        document
+            .getElementById("loginBox")
+            .style.display = "none";
+
+
+        document
+            .getElementById("adminPanel")
+            .style.display = "block";
+
+
+        loginStatus.innerText = "";
+
+
+        // Tải danh sách sản phẩm
+        loadAdminProducts();
 
 
     } catch (error) {
 
-        status.innerText =
-
-            "❌ " +
-            error.message;
+        loginStatus.innerText =
+            "❌ " + error.message;
 
     }
 
@@ -495,36 +461,41 @@ async function loginAdmin() {
 
 
 // ========================================
-// HIỆN ADMIN
+// TỰ ĐỘNG ĐĂNG NHẬP
 // ========================================
 
-function showAdmin() {
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-    document.getElementById(
-        "loginBox"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "adminPanel"
-    ).style.display =
-        "block";
+        const savedPassword =
+            sessionStorage.getItem(
+                "adminPassword"
+            );
 
 
-    document.getElementById(
-        "ordersBox"
-    ).style.display =
-        "block";
+        if (savedPassword) {
+
+            document
+                .getElementById("loginBox")
+                .style.display = "none";
 
 
-    loadOrders();
+            document
+                .getElementById("adminPanel")
+                .style.display = "block";
 
-}
+
+            loadAdminProducts();
+
+        }
+
+    }
+);
 
 
 // ========================================
-// LOGOUT
+// ĐĂNG XUẤT
 // ========================================
 
 function logoutAdmin() {
@@ -532,7 +503,6 @@ function logoutAdmin() {
     sessionStorage.removeItem(
         "adminPassword"
     );
-
 
     location.reload();
 
@@ -544,365 +514,294 @@ function logoutAdmin() {
 // ========================================
 
 document
-.getElementById(
-    "productForm"
-)
-.addEventListener(
+    .getElementById("productForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
 
-    "submit",
-
-    async function(event) {
-
-        event.preventDefault();
+            event.preventDefault();
 
 
-        const password =
-
-            sessionStorage.getItem(
-                "adminPassword"
-            );
-
-
-        const fileInput =
-
-            document.getElementById(
-                "file"
-            );
-
-
-        if (
-            !fileInput.files.length
-        ) {
-
-            alert(
-                "❌ Chưa chọn file"
-            );
-
-            return;
-
-        }
-
-
-        const formData =
-            new FormData();
-
-
-        formData.append(
-            "name",
-            document.getElementById(
-                "name"
-            ).value
-        );
-
-
-        formData.append(
-            "description",
-            document.getElementById(
-                "description"
-            ).value
-        );
-
-
-        formData.append(
-            "price",
-            document.getElementById(
-                "price"
-            ).value
-        );
-
-
-        formData.append(
-            "category",
-            document.getElementById(
-                "category"
-            ).value
-        );
-
-
-        formData.append(
-            "file",
-            fileInput.files[0]
-        );
-
-
-        formData.append(
-            "password",
-            password
-        );
-
-
-        const status =
-
-            document.getElementById(
-                "status"
-            );
-
-
-        status.innerText =
-            "⏳ Đang tải file...";
-
-
-        try {
-
-            const response =
-
-                await fetch(
-                    "/api/admin/products",
-                    {
-
-                        method:
-                            "POST",
-
-                        body:
-                            formData
-
-                    }
+            const password =
+                sessionStorage.getItem(
+                    "adminPassword"
                 );
 
 
-            const data =
-                await response.json();
+            if (!password) {
 
-
-            if (
-                !response.ok
-            ) {
-
-                throw new Error(
-                    data.error
+                alert(
+                    "Bạn chưa đăng nhập Admin"
                 );
+
+                location.reload();
+
+                return;
 
             }
 
 
+            const fileInput =
+                document.getElementById("file");
+
+
+            if (
+                !fileInput.files ||
+                !fileInput.files.length
+            ) {
+
+                document
+                    .getElementById("status")
+                    .innerText =
+                    "❌ Vui lòng chọn file!";
+
+                return;
+
+            }
+
+
+            const data =
+                new FormData();
+
+
+            data.append(
+                "name",
+                document
+                    .getElementById("name")
+                    .value
+                    .trim()
+            );
+
+
+            data.append(
+                "description",
+                document
+                    .getElementById("description")
+                    .value
+                    .trim()
+            );
+
+
+            data.append(
+                "price",
+                document
+                    .getElementById("price")
+                    .value
+            );
+
+
+            data.append(
+                "category",
+                document
+                    .getElementById("category")
+                    .value
+            );
+
+
+            data.append(
+                "file",
+                fileInput.files[0]
+            );
+
+
+            data.append(
+                "password",
+                password
+            );
+
+
+            const status =
+                document
+                    .getElementById("status");
+
+
             status.innerText =
-
-                "✅ Thêm sản phẩm thành công!";
-
-
-            document
-                .getElementById(
-                    "productForm"
-                )
-                .reset();
+                "⏳ Đang tải file lên...";
 
 
-        } catch (error) {
+            try {
 
-            status.innerText =
+                const response =
+                    await fetch(
+                        "/api/admin/products",
+                        {
+                            method: "POST",
+                            body: data
+                        }
+                    );
 
-                "❌ " +
-                error.message;
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.error ||
+                        "Không thể thêm sản phẩm"
+                    );
+
+                }
+
+
+                status.innerText =
+                    "✅ Thêm sản phẩm thành công!";
+
+
+                document
+                    .getElementById("productForm")
+                    .reset();
+
+
+                // Cập nhật danh sách
+                loadAdminProducts();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                status.innerText =
+                    "❌ " +
+                    error.message;
+
+            }
 
         }
-
-    }
-
-);
+    );
 
 
 // ========================================
-// LOAD ĐƠN
+// TẢI DANH SÁCH SẢN PHẨM
 // ========================================
 
-async function loadOrders() {
+async function loadAdminProducts() {
 
-    const password =
-
-        sessionStorage.getItem(
-            "adminPassword"
-        );
-
-
-    if (
-        !password
-    ) {
-
-        return;
-
-    }
-
-
-    const box =
-
+    const productList =
         document.getElementById(
-            "orders"
+            "productList"
         );
 
 
-    box.innerHTML =
-        "⏳ Đang tải...";
+    productList.innerHTML =
+        `
+        <div class="loading">
+            ⏳ Đang tải sản phẩm...
+        </div>
+        `;
 
 
     try {
 
         const response =
-
             await fetch(
-                "/api/admin/orders",
-                {
-
-                    headers: {
-
-                        "x-admin-password":
-                            password
-
-                    }
-
-                }
+                "/api/products"
             );
 
 
-        const data =
-            await response.json();
-
-
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             throw new Error(
-                data.error
+                "Không thể tải sản phẩm"
             );
 
         }
 
 
+        const products =
+            await response.json();
+
+
         if (
-            !data.orders.length
+            !Array.isArray(products) ||
+            products.length === 0
         ) {
 
-            box.innerHTML =
-                "📭 Chưa có đơn hàng.";
+            productList.innerHTML =
+                `
+                <div class="empty">
+                    📦 Chưa có sản phẩm nào.
+                </div>
+                `;
 
             return;
 
         }
 
 
-        box.innerHTML =
-
-            data.orders
+        productList.innerHTML =
+            products
                 .map(
-                    order => `
+                    product => {
 
-                    <div class="order">
+                        return `
+                        <div class="product-item">
 
-                        <h3>
-                            🧾
-                            ${order.order_code}
-                        </h3>
+                            <div class="product-name">
+                                ${escapeHTML(
+                                    product.name
+                                )}
+                            </div>
 
-                        <p>
-                            👤
-                            ${escapeHTML(
-                                order.customer_name
-                            )}
-                        </p>
+                            <div class="product-info">
 
-                        <p>
-                            🎮
-                            ${escapeHTML(
-                                order.product_name
-                            )}
-                        </p>
+                                🆔 ID:
+                                ${product.id}
 
-                        <p>
-                            💰
-                            ${Number(
-                                order.amount
-                            ).toLocaleString(
-                                "vi-VN"
-                            )}
-                            VNĐ
-                        </p>
+                                <br>
 
-                        <p>
-                            📧
-                            ${escapeHTML(
-                                order.customer_email ||
-                                "Không có"
-                            )}
-                        </p>
+                                💰 Giá:
+                                ${Number(
+                                    product.price
+                                ).toLocaleString(
+                                    "vi-VN"
+                                )}
+                                VNĐ
 
-                        <p>
+                                <br>
 
-                            Trạng thái:
+                                📂 Danh mục:
+                                ${escapeHTML(
+                                    product.category ||
+                                    "Khác"
+                                )}
 
-                            <strong class="${
-                                order.status ===
-                                "paid"
-
-                                ? "paid"
-
-                                : "pending"
-                            }">
-
-                            ${
-                                order.status ===
-                                "paid"
-
-                                ? "✅ ĐÃ THANH TOÁN"
-
-                                : "⏳ CHỜ THANH TOÁN"
-                            }
-
-                            </strong>
-
-                        </p>
-
-
-                        ${
-                            order.status !==
-                            "paid"
-
-                            ?
-
-                            `
+                            </div>
 
                             <button
-
-                                onclick="
-                                    confirmPayment(
-                                        '${order.order_code}'
-                                    )
-                                "
-
+                                type="button"
+                                class="delete-button"
+                                onclick="deleteProduct(
+                                    ${product.id},
+                                    '${escapeJS(
+                                        product.name
+                                    )}'
+                                )"
                             >
-
-                                💰 XÁC NHẬN ĐÃ NHẬN TIỀN
-
+                                🗑️ XÓA SẢN PHẨM
                             </button>
 
-                            `
+                        </div>
+                        `;
 
-                            :
-
-                            `
-
-                            <p class="paid">
-
-                                ✅ Khách có thể tải file.
-
-                            </p>
-
-                            `
-
-                        }
-
-                    </div>
-
-                `
+                    }
                 )
                 .join("");
 
 
     } catch (error) {
 
-        box.innerHTML =
+        console.error(error);
 
-            "❌ " +
-            error.message;
+        productList.innerHTML =
+            `
+            <div class="empty">
+                ❌ ${escapeHTML(
+                    error.message
+                )}
+            </div>
+            `;
 
     }
 
@@ -910,36 +809,43 @@ async function loadOrders() {
 
 
 // ========================================
-// XÁC NHẬN THANH TOÁN
+// XÓA SẢN PHẨM
 // ========================================
 
-async function confirmPayment(
-    orderCode
+async function deleteProduct(
+    id,
+    name
 ) {
 
     const password =
-
         sessionStorage.getItem(
             "adminPassword"
         );
 
 
-    const ok =
+    if (!password) {
 
+        alert(
+            "Bạn chưa đăng nhập Admin"
+        );
+
+        return;
+
+    }
+
+
+    const confirmDelete =
         confirm(
-
-            "Bạn đã kiểm tra ZaloPay và chắc chắn đã nhận tiền cho đơn " +
-
-            orderCode +
-
-            " chưa?"
-
+            "⚠️ CẢNH BÁO\n\n" +
+            "Bạn có chắc muốn xóa sản phẩm:\n\n" +
+            name +
+            "\n\n" +
+            "File bán và dữ liệu sản phẩm " +
+            "trong database sẽ bị xóa vĩnh viễn."
         );
 
 
-    if (
-        !ok
-    ) {
+    if (!confirmDelete) {
 
         return;
 
@@ -949,64 +855,50 @@ async function confirmPayment(
     try {
 
         const response =
-
             await fetch(
-
-                "/api/admin/orders/" +
-
-                encodeURIComponent(
-                    orderCode
-                ) +
-
-                "/paid",
-
+                "/api/admin/products/" +
+                encodeURIComponent(id),
                 {
-
-                    method:
-                        "POST",
+                    method: "DELETE",
 
                     headers: {
-
                         "x-admin-password":
                             password
-
                     }
-
                 }
-
             );
 
 
-        const data =
+        const result =
             await response.json();
 
 
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             throw new Error(
-                data.error
+                result.error ||
+                "Không thể xóa sản phẩm"
             );
 
         }
 
 
         alert(
-            "✅ Đã xác nhận thanh toán!"
+            "✅ Đã xóa sản phẩm và file thành công!"
         );
 
 
-        loadOrders();
+        // Tải lại danh sách
+        loadAdminProducts();
 
 
     } catch (error) {
 
-        alert(
+        console.error(error);
 
+        alert(
             "❌ " +
             error.message
-
         );
 
     }
@@ -1015,37 +907,28 @@ async function confirmPayment(
 
 
 // ========================================
-// ESCAPE
+// BẢO VỆ HTML
 // ========================================
 
-function escapeHTML(
-    text
-) {
+function escapeHTML(value) {
 
-    return String(
-        text
-    )
-
+    return String(value || "")
         .replace(
             /&/g,
             "&amp;"
         )
-
         .replace(
             /</g,
             "&lt;"
         )
-
         .replace(
             />/g,
             "&gt;"
         )
-
         .replace(
             /"/g,
             "&quot;"
         )
-
         .replace(
             /'/g,
             "&#039;"
@@ -1054,35 +937,27 @@ function escapeHTML(
 }
 
 
-// ========================================
-// TỰ LOGIN
-// ========================================
+function escapeJS(value) {
 
-window.addEventListener(
+    return String(value || "")
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        )
+        .replace(
+            /\n/g,
+            "\\n"
+        )
+        .replace(
+            /\r/g,
+            "\\r"
+        );
 
-    "DOMContentLoaded",
-
-    function() {
-
-        const password =
-
-            sessionStorage.getItem(
-                "adminPassword"
-            );
-
-
-        if (
-            password
-        ) {
-
-            showAdmin();
-
-        }
-
-    }
-
-);
-
+}
 
 </script>
 
