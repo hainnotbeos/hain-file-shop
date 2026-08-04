@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const ADMIN_PASSWORD = "kngan#1";
+const ADMIN_PASSWORD =
     process.env.ADMIN_PASSWORD || "change-me";
 
 const PUBLIC_DIR =
@@ -313,7 +313,96 @@ app.get(
         req,
         res
     ) {
+// ================================
+// XÓA SẢN PHẨM + FILE
+// ================================
+app.delete("/api/admin/products/:id", function (req, res) {
+    try {
+        const productId = Number(req.params.id);
+        const password = req.headers["x-admin-password"];
 
+        // Kiểm tra mật khẩu Admin
+        if (password !== ADMIN_PASSWORD) {
+            return res.status(401).json({
+                success: false,
+                error: "Mật khẩu Admin không đúng"
+            });
+        }
+
+        if (!Number.isInteger(productId)) {
+            return res.status(400).json({
+                success: false,
+                error: "ID sản phẩm không hợp lệ"
+            });
+        }
+
+        // Lấy thông tin sản phẩm
+        const product = db
+            .prepare(`
+                SELECT id, file_name
+                FROM products
+                WHERE id = ?
+            `)
+            .get(productId);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                error: "Không tìm thấy sản phẩm"
+            });
+        }
+
+        // Xóa file sản phẩm
+        const filePath = path.join(
+            PRIVATE_DIR,
+            product.file_name
+        );
+
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            console.log(
+                "🗑️ Đã xóa file:",
+                product.file_name
+            );
+        }
+
+        // Xóa sản phẩm khỏi database
+        const result = db
+            .prepare(`
+                DELETE FROM products
+                WHERE id = ?
+            `)
+            .run(productId);
+
+        if (result.changes === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Không thể xóa sản phẩm"
+            });
+        }
+
+        console.log(
+            "🗑️ Đã xóa sản phẩm ID:",
+            productId
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Đã xóa sản phẩm và file thành công"
+        });
+
+    } catch (error) {
+        console.error(
+            "❌ LỖI XÓA SẢN PHẨM:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            error: error.message || "Lỗi server"
+        });
+    }
+});
         try {
 
             const products =
