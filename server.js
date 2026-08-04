@@ -9,8 +9,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const ADMIN_PASSWORD =
-    process.env.ADMIN_PASSWORD || "kngan#1";
+const ADMIN_PASSWORD = "kngan#1";
+    process.env.ADMIN_PASSWORD || "change-me";
 
 const PUBLIC_DIR =
     path.join(__dirname, "public");
