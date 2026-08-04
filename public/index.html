@@ -2,26 +2,22 @@
 <html lang="vi">
 
 <head>
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <title>HAIN FILE SHOP</title>
 
-<title>HAIN FILE SHOP</title>
-
-<link
-    rel="stylesheet"
-    href="./style.css"
->
-
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -29,40 +25,30 @@
         🎮 HAIN FILE SHOP
     </div>
 
-
     <div class="header-actions">
 
         <input
             id="searchInput"
             type="text"
             placeholder="Tìm sản phẩm..."
-            onkeydown="
-                if(event.key === 'Enter')
-                searchProduct()
-            "
         >
 
-
-        <button
-            onclick="searchProduct()"
-        >
+        <button onclick="searchProduct()">
             🔍
         </button>
 
-
-        <button
-            onclick="openCart()"
-        >
+        <button onclick="openCart()">
             🛒 Giỏ hàng
-            <span id="cartCount">
-                0
-            </span>
+            <span id="cartCount">0</span>
+        </button>
+
+        <button onclick="openOrderHistory()">
+            📜 Lịch sử đơn
         </button>
 
     </div>
 
 </header>
-
 
 
 <nav>
@@ -94,7 +80,6 @@
 </nav>
 
 
-
 <section class="hero">
 
     <h1>
@@ -115,73 +100,41 @@
 </section>
 
 
-
 <section class="categories">
 
     <h2>
         ⚡ DANH MỤC
     </h2>
 
-
     <div class="category-list">
 
-        <button
-            onclick="
-                filterProducts('all')
-            "
-        >
+        <button onclick="filterProducts('all')">
             🏠 Tất cả
         </button>
 
-
-        <button
-            onclick="
-                filterProducts('Free Fire')
-            "
-        >
+        <button onclick="filterProducts('Free Fire')">
             🎮 Free Fire
         </button>
 
-
-        <button
-            onclick="
-                filterProducts('Minecraft')
-            "
-        >
+        <button onclick="filterProducts('Minecraft')">
             ⛏️ Minecraft
         </button>
 
-
-        <button
-            onclick="
-                filterProducts('Preset')
-            "
-        >
+        <button onclick="filterProducts('Preset')">
             🧩 Preset
         </button>
 
-
-        <button
-            onclick="
-                filterProducts('HUD')
-            "
-        >
+        <button onclick="filterProducts('HUD')">
             🎯 HUD
         </button>
 
-
-        <button
-            onclick="
-                filterProducts('Khác')
-            "
-        >
+        <button onclick="filterProducts('Khác')">
             📦 Khác
         </button>
 
     </div>
 
 </section>
-
 
 
 <section
@@ -193,20 +146,18 @@
         🔥 SẢN PHẨM
     </h2>
 
-
     <div
         id="productGrid"
         class="product-grid"
     >
 
         <p>
-            ⏳ Đang tải sản phẩm...
+            Đang tải sản phẩm...
         </p>
 
     </div>
 
 </section>
-
 
 
 <footer>
@@ -222,6 +173,7 @@
 </footer>
 
 
+<!-- SUPPORT CHAT -->
 
 <a
     href="https://www.facebook.com/nguienanhain222"
@@ -239,9 +191,8 @@
 </a>
 
 
-
 <!-- ================================ -->
-<!-- THANH TOÁN -->
+<!-- PAYMENT MODAL -->
 <!-- ================================ -->
 
 <div
@@ -251,7 +202,6 @@
 
     <div class="payment-box">
 
-
         <button
             class="close-btn"
             onclick="closePayment()"
@@ -259,91 +209,74 @@
             ×
         </button>
 
-
         <h2>
             💳 THANH TOÁN
         </h2>
 
-
         <div id="orderInfo">
-
-            <p>
-                🧾 Mã đơn:
-                <strong
-                    id="orderCode"
-                >
-                    -
-                </strong>
-            </p>
-
-
-            <p>
-                💰 Số tiền:
-                <strong
-                    id="orderAmount"
-                >
-                    -
-                </strong>
-            </p>
-
         </div>
-
-
 
         <div class="qr-box">
 
             <img
                 src="/qr-payment.png"
                 id="paymentQR"
-                alt="QR ZaloPay"
+                alt="QR Thanh Toán"
             >
 
         </div>
 
-
-
         <p class="qr-text">
 
-            📱 Quét mã QR để thanh toán
+            📱 Quét mã QR phía trên
+            để thanh toán.
 
         </p>
-
-
 
         <div class="payment-warning">
 
             ⚠️ Sau khi chuyển khoản,
-            hãy giữ nguyên mã đơn hàng.
-            Shop sẽ kiểm tra giao dịch
-            và xác nhận thanh toán.
+            hãy giữ nguyên mã đơn hàng
+            để kiểm tra thanh toán.
 
         </div>
 
+        <div class="order-code">
 
+            Mã đơn hàng:
 
-        <p>
-            Nội dung chuyển khoản:
-        </p>
-
-
-        <div class="transfer-content">
-
-            <strong
-                id="transferContent"
-            >
+            <strong id="orderCode">
                 -
             </strong>
 
         </div>
 
+        <div class="payment-amount">
 
+            Số tiền:
+
+            <strong id="orderAmount">
+                -
+            </strong>
+
+        </div>
+
+        <p>
+            Nội dung chuyển khoản:
+        </p>
+
+        <div class="transfer-content">
+
+            <strong id="transferContent">
+                -
+            </strong>
+
+        </div>
 
         <input
             id="checkOrderCode"
             placeholder="Nhập mã đơn hàng"
         >
-
-
 
         <button
             class="pay-button"
@@ -354,14 +287,8 @@
 
         </button>
 
-
-
-        <div
-            id="paymentStatus"
-        >
+        <div id="paymentStatus">
         </div>
-
-
 
         <a
             id="downloadButton"
@@ -373,17 +300,60 @@
 
         </a>
 
+    </div>
+
+</div>
+
+
+<!-- ================================ -->
+<!-- LỊCH SỬ ĐƠN HÀNG -->
+<!-- ================================ -->
+
+<div
+    id="historyModal"
+    class="modal"
+>
+
+    <div class="payment-box history-box">
+
+        <button
+            class="close-btn"
+            onclick="closeOrderHistory()"
+        >
+            ×
+        </button>
+
+        <h2>
+            📜 LỊCH SỬ ĐƠN HÀNG
+        </h2>
+
+        <p>
+            Các đơn hàng đã tạo trên thiết bị này:
+        </p>
+
+        <div id="orderHistoryList">
+
+            <p>
+                📭 Chưa có đơn hàng nào.
+            </p>
+
+        </div>
+
+        <button
+            class="clear-history-button"
+            onclick="clearOrderHistory()"
+        >
+
+            🗑️ XÓA TOÀN BỘ LỊCH SỬ
+
+        </button>
 
     </div>
 
 </div>
 
 
-
-<script
-    src="./script.js"
-></script>
-
+<script src="./script.js"></script>
 
 </body>
 
