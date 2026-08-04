@@ -1,55 +1,96 @@
-let cart = [];
 let products = [];
 
-// ================================
+let cart = [];
+
+
+// ========================================
 // LOAD SẢN PHẨM
-// ================================
+// ========================================
 
 async function loadProducts() {
-    try {
-        const response = await fetch("/api/products");
 
-        if (!response.ok) {
-            throw new Error("Không thể tải sản phẩm");
+    const grid =
+        document.getElementById(
+            "productGrid"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/products"
+            );
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                "Không thể tải sản phẩm"
+            );
+
         }
 
-        products = await response.json();
 
-        renderProducts(products);
+        products =
+            await response.json();
+
+
+        renderProducts(
+            products
+        );
+
 
     } catch (error) {
-        console.error(error);
 
-        document.getElementById("productGrid").innerHTML =
+        console.error(
+            error
+        );
+
+
+        grid.innerHTML =
+
             "<p>❌ Không thể tải sản phẩm</p>";
+
     }
+
 }
 
 
-// ================================
+// ========================================
 // HIỂN THỊ SẢN PHẨM
-// ================================
+// ========================================
 
-function renderProducts(list) {
+function renderProducts(
+    list
+) {
 
     const grid =
-        document.getElementById("productGrid");
+        document.getElementById(
+            "productGrid"
+        );
 
-    if (!grid) {
-        return;
-    }
 
-    if (list.length === 0) {
+    if (
+        !list.length
+    ) {
 
         grid.innerHTML =
-            "<p>Chưa có sản phẩm.</p>";
+
+            "<p>📭 Chưa có sản phẩm.</p>";
 
         return;
+
     }
 
-    grid.innerHTML = list.map(product => {
 
-        return `
+    grid.innerHTML =
+
+        list.map(
+            product => `
+
             <div class="product">
 
                 <div class="product-image">
@@ -57,130 +98,172 @@ function renderProducts(list) {
                 </div>
 
                 <h3>
-                    ${product.name}
+                    ${escapeHTML(
+                        product.name
+                    )}
                 </h3>
 
                 <p>
-                    ${product.description || ""}
+                    ${escapeHTML(
+                        product.description ||
+                        ""
+                    )}
                 </p>
 
                 <div class="price">
 
-                    ${Number(product.price)
-                        .toLocaleString("vi-VN")}
+                    ${Number(
+                        product.price
+                    ).toLocaleString(
+                        "vi-VN"
+                    )}
 
                     VNĐ
 
                 </div>
 
                 <button
-                    onclick="addToCart(${product.id})"
+                    onclick="
+                        buyProduct(
+                            ${product.id}
+                        )
+                    "
                 >
+
                     🛒 MUA NGAY
+
                 </button>
 
             </div>
-        `;
 
-    }).join("");
+        `
+        ).join("");
+
 }
 
 
-// ================================
-// THÊM VÀO GIỎ
-// ================================
+// ========================================
+// MUA SẢN PHẨM
+// ========================================
 
-function addToCart(id) {
+function buyProduct(
+    id
+) {
 
     const product =
+
         products.find(
-            p => Number(p.id) === Number(id)
+
+            item =>
+
+                Number(
+                    item.id
+                ) ===
+
+                Number(
+                    id
+                )
+
         );
 
-    if (!product) {
+
+    if (
+        !product
+    ) {
 
         alert(
             "❌ Không tìm thấy sản phẩm"
         );
 
         return;
-    }
-
-    cart = [product];
-
-    const cartCount =
-        document.getElementById("cartCount");
-
-    if (cartCount) {
-
-        cartCount.innerText =
-            cart.length;
 
     }
 
-    openCart();
+
+    cart = [
+        product
+    ];
+
+
+    document.getElementById(
+        "cartCount"
+    ).innerText =
+        "1";
+
+
+    createOrder();
+
 }
 
 
-// ================================
-// TẠO ĐƠN HÀNG
-// ================================
+// ========================================
+// GIỎ HÀNG
+// ========================================
 
-async function openCart() {
+function openCart() {
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         alert(
             "🛒 Giỏ hàng đang trống!"
         );
 
         return;
+
     }
 
-    const product = cart[0];
+
+    createOrder();
+
+}
+
+
+// ========================================
+// TẠO ĐƠN
+// ========================================
+
+async function createOrder() {
+
+    const product =
+        cart[0];
+
+
+    if (
+        !product
+    ) {
+
+        return;
+
+    }
+
 
     const customerName =
+
         prompt(
             "Nhập tên của bạn:"
         );
 
-    if (!customerName) {
+
+    if (
+        !customerName ||
+        !customerName.trim()
+    ) {
 
         return;
+
     }
 
+
     const customerEmail =
+
         prompt(
             "Nhập Email của bạn:"
         ) || "";
 
 
     try {
-
-        console.log(
-            "📦 Đang gửi đơn hàng..."
-        );
-
-
-        const requestData = {
-
-            productId:
-                Number(product.id),
-
-            customerName:
-                customerName,
-
-            customerEmail:
-                customerEmail
-
-        };
-
-
-        console.log(
-            "📤 Dữ liệu gửi:",
-            requestData
-        );
-
 
         const response =
 
@@ -191,8 +274,7 @@ async function openCart() {
                     method:
                         "POST",
 
-                    headers:
-                    {
+                    headers: {
 
                         "Content-Type":
                             "application/json"
@@ -200,79 +282,38 @@ async function openCart() {
                     },
 
                     body:
-                        JSON.stringify(
-                            requestData
-                        )
+                        JSON.stringify({
+
+                            productId:
+                                product.id,
+
+                            customerName:
+                                customerName.trim(),
+
+                            customerEmail:
+                                customerEmail.trim()
+
+                        })
 
                 }
             );
 
 
-        console.log(
-            "📡 HTTP Status:",
-            response.status
-        );
+        const data =
+            await response.json();
 
 
-        // Đọc dạng TEXT trước
-        const responseText =
-            await response.text();
-
-
-        console.log(
-            "📥 Server trả về:",
-            responseText
-        );
-
-
-        // Thử chuyển TEXT thành JSON
-        let data;
-
-        try {
-
-            data =
-                JSON.parse(
-                    responseText
-                );
-
-        } catch (jsonError) {
-
-            console.error(
-                "❌ Server không trả về JSON!"
-            );
-
-            console.error(
-                "Nội dung server trả về:",
-                responseText
-            );
+        if (
+            !response.ok
+        ) {
 
             throw new Error(
-                "Server trả về HTML thay vì JSON"
+                data.error
             );
 
         }
 
 
-        if (!response.ok) {
-
-            throw new Error(
-
-                data.error ||
-
-                "Không thể tạo đơn hàng"
-
-            );
-
-        }
-
-
-        console.log(
-            "✅ Tạo đơn thành công:",
-            data
-        );
-
-
-        // Hiện giao diện thanh toán
         showPayment(
             data
         );
@@ -280,18 +321,9 @@ async function openCart() {
 
     } catch (error) {
 
-        console.error(
-            "❌ LỖI MUA HÀNG:",
-            error
-        );
-
-
         alert(
-
             "❌ " +
-
             error.message
-
         );
 
     }
@@ -299,174 +331,124 @@ async function openCart() {
 }
 
 
-// ================================
-// HIỆN GIAO DIỆN THANH TOÁN
-// ================================
+// ========================================
+// HIỆN QR
+// ========================================
 
-function showPayment(data) {
+function showPayment(
+    data
+) {
 
-    const modal =
-        document.getElementById(
-            "paymentModal"
-        );
-
-    const orderCode =
-        document.getElementById(
-            "orderCode"
-        );
-
-    const orderAmount =
-        document.getElementById(
-            "orderAmount"
-        );
-
-    const transferContent =
-        document.getElementById(
-            "transferContent"
-        );
-
-    const checkOrderCode =
-        document.getElementById(
-            "checkOrderCode"
-        );
-
-    const paymentStatus =
-        document.getElementById(
-            "paymentStatus"
-        );
-
-    const downloadButton =
-        document.getElementById(
-            "downloadButton"
-        );
+    document.getElementById(
+        "orderCode"
+    ).innerText =
+        data.orderCode;
 
 
-    if (orderCode) {
+    document.getElementById(
+        "orderAmount"
+    ).innerText =
 
-        orderCode.innerText =
-            data.orderCode;
+        Number(
+            data.amount
+        ).toLocaleString(
+            "vi-VN"
+        ) +
 
-    }
-
-
-    if (orderAmount) {
-
-        orderAmount.innerText =
-
-            Number(
-                data.amount
-            ).toLocaleString(
-                "vi-VN"
-            ) +
-
-            " VNĐ";
-
-    }
+        " VNĐ";
 
 
-    if (transferContent) {
-
-        transferContent.innerText =
-            data.orderCode;
-
-    }
+    document.getElementById(
+        "transferContent"
+    ).innerText =
+        data.orderCode;
 
 
-    if (checkOrderCode) {
-
-        checkOrderCode.value =
-            data.orderCode;
-
-    }
+    document.getElementById(
+        "checkOrderCode"
+    ).value =
+        data.orderCode;
 
 
-    if (paymentStatus) {
+    document.getElementById(
+        "paymentStatus"
+    ).innerText =
 
-        paymentStatus.innerText =
-            "⏳ Đang chờ thanh toán...";
-
-    }
-
-
-    if (downloadButton) {
-
-        downloadButton.style.display =
-            "none";
-
-    }
+        "⏳ Đang chờ shop xác nhận thanh toán...";
 
 
-    if (modal) {
+    document.getElementById(
+        "downloadButton"
+    ).style.display =
+        "none";
 
-        modal.style.display =
-            "flex";
 
-    }
+    document.getElementById(
+        "paymentModal"
+    ).style.display =
+        "flex";
 
 }
 
 
-// ================================
-// ĐÓNG THANH TOÁN
-// ================================
+// ========================================
+// ĐÓNG QR
+// ========================================
 
 function closePayment() {
 
-    const modal =
-        document.getElementById(
-            "paymentModal"
-        );
-
-    if (modal) {
-
-        modal.style.display =
-            "none";
-
-    }
+    document.getElementById(
+        "paymentModal"
+    ).style.display =
+        "none";
 
 }
 
 
-// ================================
+// ========================================
 // KIỂM TRA THANH TOÁN
-// ================================
+// ========================================
 
 async function checkPayment() {
 
-    const codeInput =
+    const code =
+
         document.getElementById(
             "checkOrderCode"
-        );
+        ).value.trim();
 
-    const paymentStatus =
+
+    const status =
+
         document.getElementById(
             "paymentStatus"
         );
 
-    const downloadButton =
+
+    const download =
+
         document.getElementById(
             "downloadButton"
         );
 
 
-    const code =
-        codeInput.value.trim();
+    if (
+        !code
+    ) {
 
-
-    if (!code) {
-
-        paymentStatus.innerText =
+        status.innerText =
             "❌ Vui lòng nhập mã đơn hàng";
 
         return;
+
     }
 
 
-    paymentStatus.innerText =
-        "⏳ Đang kiểm tra thanh toán...";
+    status.innerText =
+        "⏳ Đang kiểm tra...";
 
 
-    downloadButton.style.display =
+    download.style.display =
         "none";
 
 
@@ -488,32 +470,31 @@ async function checkPayment() {
 
 
         const data =
-
             await response.json();
 
 
-        if (!response.ok) {
+        if (
+            !response.ok
+        ) {
 
             throw new Error(
-
-                data.error ||
-
-                "Không tìm thấy đơn hàng"
-
+                data.error
             );
 
         }
 
 
         if (
-            data.status === "paid"
+            data.status ===
+            "paid"
         ) {
 
-            paymentStatus.innerText =
+            status.innerText =
+
                 "✅ Thanh toán thành công!";
 
 
-            downloadButton.href =
+            download.href =
 
                 "/api/orders/" +
 
@@ -524,30 +505,24 @@ async function checkPayment() {
                 "/download";
 
 
-            downloadButton.style.display =
+            download.style.display =
                 "block";
 
 
         } else {
 
-            paymentStatus.innerText =
+            status.innerText =
 
-                "⏳ Chưa nhận được thanh toán. Vui lòng thử lại sau.";
+                "⏳ Shop chưa xác nhận thanh toán.";
 
         }
 
 
     } catch (error) {
 
-        console.error(
-            error
-        );
-
-
-        paymentStatus.innerText =
+        status.innerText =
 
             "❌ " +
-
             error.message;
 
     }
@@ -555,28 +530,27 @@ async function checkPayment() {
 }
 
 
-// ================================
+// ========================================
 // TÌM KIẾM
-// ================================
+// ========================================
 
 function searchProduct() {
 
-    const input =
-        document.getElementById(
-            "searchInput"
-        );
-
-
     const keyword =
 
-        input.value
-            .toLowerCase()
-            .trim();
+        document.getElementById(
+            "searchInput"
+        ).value
+
+        .toLowerCase()
+
+        .trim();
 
 
     const result =
 
         products.filter(
+
             product =>
 
                 product.name
@@ -584,6 +558,7 @@ function searchProduct() {
                     .includes(
                         keyword
                     )
+
         );
 
 
@@ -594,14 +569,17 @@ function searchProduct() {
 }
 
 
-// ================================
-// LỌC DANH MỤC
-// ================================
+// ========================================
+// LỌC
+// ========================================
 
-function filterProducts(category) {
+function filterProducts(
+    category
+) {
 
     if (
-        category === "all"
+        category ===
+        "all"
     ) {
 
         renderProducts(
@@ -632,9 +610,49 @@ function filterProducts(category) {
 }
 
 
-// ================================
-// KHỞI ĐỘNG
-// ================================
+// ========================================
+// ESCAPE HTML
+// ========================================
+
+function escapeHTML(
+    text
+) {
+
+    return String(
+        text
+    )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ========================================
+// START
+// ========================================
 
 document.addEventListener(
 
