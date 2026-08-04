@@ -2,361 +2,584 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta charset="UTF-8">
 
-    <title>Admin - HAIN FILE SHOP</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<title>Admin - HAIN FILE SHOP</title>
 
-        body {
-            margin: 0;
-            padding: 30px 15px;
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
+<style>
 
-        .box {
-            width: 100%;
-            max-width: 700px;
-            margin: auto;
-            background: #17171e;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        }
+* {
+    box-sizing: border-box;
+}
 
-        h1 {
-            margin-top: 0;
-            color: #ff3030;
-            text-align: center;
-        }
+body {
 
-        h2 {
-            color: #ff5050;
-            margin-top: 30px;
-        }
+    margin: 0;
 
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 13px;
-            margin-top: 8px;
-            margin-bottom: 18px;
-            background: #222229;
-            color: white;
-            border: 1px solid #444;
-            border-radius: 9px;
-            outline: none;
-        }
+    padding: 30px;
 
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #ff3030;
-        }
+    font-family:
+        Arial,
+        sans-serif;
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+    background:
+        #0b0b0f;
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #ff3030;
-            color: white;
-            border: none;
-            border-radius: 9px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    color:
+        white;
 
-        button:hover {
-            opacity: 0.85;
-            transform: translateY(-1px);
-        }
+}
 
-        .login-title {
-            color: #ff3030;
-        }
+.container {
 
-        #loginStatus,
-        #status {
-            margin-top: 15px;
-            line-height: 1.5;
-        }
+    max-width:
+        1000px;
 
-        #adminPanel {
-            display: none;
-        }
+    margin:
+        auto;
 
-        .logout {
-            margin-top: 20px;
-            background: #444;
-        }
+}
 
-        .back-home {
-            display: block;
-            margin-top: 25px;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-        }
+.box {
 
-        .back-home:hover {
-            color: #ff3030;
-        }
+    background:
+        #17171e;
 
-        hr {
-            margin: 35px 0;
-            border: 0;
-            border-top: 1px solid #333;
-        }
+    padding:
+        25px;
 
-        .product-item {
-            background: #222229;
-            padding: 18px;
-            margin-top: 12px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
+    border-radius:
+        15px;
 
-        .product-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 8px;
-        }
+    margin-bottom:
+        25px;
 
-        .product-info {
-            color: #bbb;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
+    border:
+        1px solid #292933;
 
-        .delete-button {
-            background: #b00020;
-        }
+}
 
-        .delete-button:hover {
-            background: #d00025;
-        }
+h1 {
 
-        .loading {
-            color: #aaa;
-            text-align: center;
-            padding: 15px;
-        }
+    color:
+        #ff3030;
 
-        .empty {
-            color: #aaa;
-            text-align: center;
-            padding: 20px;
-            background: #222229;
-            border-radius: 10px;
-        }
+}
 
-        @media (max-width: 600px) {
-            body {
-                padding: 15px 10px;
-            }
+h2 {
 
-            .box {
-                padding: 20px;
-            }
-        }
-    </style>
+    color:
+        #ff5050;
+
+}
+
+input,
+textarea,
+select {
+
+    width:
+        100%;
+
+    padding:
+        12px;
+
+    margin:
+        8px 0 15px;
+
+    background:
+        #22222b;
+
+    color:
+        white;
+
+    border:
+        1px solid #444;
+
+    border-radius:
+        8px;
+
+}
+
+button {
+
+    padding:
+        12px 18px;
+
+    border:
+        none;
+
+    border-radius:
+        8px;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        bold;
+
+    color:
+        white;
+
+}
+
+.login-btn {
+
+    width:
+        100%;
+
+    background:
+        #ff3030;
+
+}
+
+.add-btn {
+
+    width:
+        100%;
+
+    background:
+        #ff3030;
+
+}
+
+.approve {
+
+    background:
+        #16a34a;
+
+}
+
+.cancel {
+
+    background:
+        #dc2626;
+
+}
+
+.delete {
+
+    background:
+        #991b1b;
+
+}
+
+.refresh {
+
+    background:
+        #2563eb;
+
+    margin-bottom:
+        15px;
+
+}
+
+.logout {
+
+    background:
+        #444;
+
+    margin-top:
+        20px;
+
+}
+
+#adminPanel {
+
+    display:
+        none;
+
+}
+
+#loginStatus,
+#status {
+
+    margin-top:
+        15px;
+
+}
+
+.order {
+
+    background:
+        #22222b;
+
+    padding:
+        18px;
+
+    margin-top:
+        15px;
+
+    border-radius:
+        10px;
+
+    border:
+        1px solid #333;
+
+}
+
+.order.pending {
+
+    border-left:
+        5px solid orange;
+
+}
+
+.order.paid {
+
+    border-left:
+        5px solid #16a34a;
+
+}
+
+.order.cancelled {
+
+    border-left:
+        5px solid #dc2626;
+
+}
+
+.order-actions {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    margin-top:
+        15px;
+
+    flex-wrap:
+        wrap;
+
+}
+
+.order-actions button {
+
+    flex:
+        1;
+
+}
+
+.product {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    background:
+        #22222b;
+
+    padding:
+        15px;
+
+    margin-top:
+        10px;
+
+    border-radius:
+        8px;
+
+}
+
+.status {
+
+    font-weight:
+        bold;
+
+}
+
+a {
+
+    color:
+        white;
+
+    text-decoration:
+        none;
+
+}
+
+@media(max-width:600px) {
+
+    body {
+
+        padding:
+            15px;
+
+    }
+
+    .product {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            10px;
+
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
+
+
+<div class="container">
+
+
+<!-- ================================= -->
+<!-- LOGIN -->
+<!-- ================================= -->
+
+<div
+id="loginBox"
+class="box"
+>
+
+<h1>
+🔐 HAIN FILE SHOP ADMIN
+</h1>
+
+<p>
+Đăng nhập để quản lý Shop
+</p>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Nhập mật khẩu Admin"
+>
+
+<button
+class="login-btn"
+onclick="loginAdmin()"
+>
+
+🔓 ĐĂNG NHẬP
+
+</button>
+
+<div
+id="loginStatus"
+></div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- ADMIN -->
+<!-- ================================= -->
+
+<div
+id="adminPanel"
+>
+
 
 <div class="box">
 
-    <h1>
-        ⚡ HAIN FILE SHOP
-    </h1>
+<h1>
+⚡ HAIN FILE SHOP
+</h1>
+
+<p>
+Quản lý Shop
+</p>
+
+<button
+class="logout"
+onclick="logoutAdmin()"
+>
+
+🚪 ĐĂNG XUẤT
+
+</button>
+
+</div>
 
 
-    <!-- ================================= -->
-    <!-- LOGIN ADMIN -->
-    <!-- ================================= -->
+<!-- ================================= -->
+<!-- THÊM SẢN PHẨM -->
+<!-- ================================= -->
 
-    <div id="loginBox">
+<div class="box">
 
-        <h2 class="login-title">
-            🔐 ADMIN
-        </h2>
+<h2>
+➕ THÊM SẢN PHẨM
+</h2>
 
-        <p>
-            Nhập mật khẩu để quản lý sản phẩm.
-        </p>
+<form
+id="productForm"
+>
 
-        <input
-            id="adminPassword"
-            type="password"
-            placeholder="Nhập mật khẩu Admin"
-        >
+<label>
+Tên sản phẩm
+</label>
 
-        <button
-            type="button"
-            onclick="loginAdmin()"
-        >
-            🔓 ĐĂNG NHẬP ADMIN
-        </button>
-
-        <div id="loginStatus"></div>
-
-    </div>
+<input
+id="name"
+required
+placeholder="Ví dụ: Aimlock V1"
+>
 
 
-    <!-- ================================= -->
-    <!-- ADMIN PANEL -->
-    <!-- ================================= -->
+<label>
+Mô tả
+</label>
 
-    <div id="adminPanel">
-
-        <h2>
-            ➕ THÊM SẢN PHẨM
-        </h2>
-
-        <form id="productForm">
-
-            <label>
-                Tên sản phẩm
-            </label>
-
-            <input
-                id="name"
-                type="text"
-                required
-                placeholder="Ví dụ: Aimlock V2"
-            >
+<textarea
+id="description"
+placeholder="Mô tả sản phẩm"
+></textarea>
 
 
-            <label>
-                Mô tả
-            </label>
+<label>
+Giá VNĐ
+</label>
 
-            <textarea
-                id="description"
-                placeholder="Mô tả sản phẩm"
-            ></textarea>
-
-
-            <label>
-                Giá sản phẩm
-            </label>
-
-            <input
-                id="price"
-                type="number"
-                min="0"
-                required
-                placeholder="50000"
-            >
+<input
+id="price"
+type="number"
+required
+placeholder="50000"
+>
 
 
-            <label>
-                Danh mục
-            </label>
+<label>
+Danh mục
+</label>
 
-            <select id="category">
+<select
+id="category"
+>
 
-                <option value="Free Fire">
-                    🎮 Free Fire
-                </option>
+<option value="Free Fire">
+Free Fire
+</option>
 
-                <option value="Minecraft">
-                    ⛏️ Minecraft
-                </option>
+<option value="Minecraft">
+Minecraft
+</option>
 
-                <option value="Preset">
-                    🧩 Preset
-                </option>
+<option value="Preset">
+Preset
+</option>
 
-                <option value="HUD">
-                    🎯 HUD
-                </option>
+<option value="HUD">
+HUD
+</option>
 
-                <option value="Khác">
-                    📦 Khác
-                </option>
+<option value="Khác">
+Khác
+</option>
 
-            </select>
-
-
-            <label>
-                File bán
-            </label>
-
-            <input
-                id="file"
-                type="file"
-                required
-            >
+</select>
 
 
-            <button
-                type="submit"
-            >
-                ➕ THÊM SẢN PHẨM
-            </button>
+<label>
+File bán
+</label>
 
-        </form>
-
-
-        <div id="status"></div>
-
-
-        <hr>
+<input
+id="file"
+type="file"
+required
+>
 
 
-        <!-- ================================= -->
-        <!-- QUẢN LÝ SẢN PHẨM -->
-        <!-- ================================= -->
+<button
+class="add-btn"
+type="submit"
+>
 
-        <h2>
-            🗑️ QUẢN LÝ SẢN PHẨM
-        </h2>
+➕ THÊM SẢN PHẨM
 
-        <div id="productList">
+</button>
 
-            <div class="loading">
-                ⏳ Đang tải sản phẩm...
-            </div>
-
-        </div>
+</form>
 
 
-        <button
-            class="logout"
-            type="button"
-            onclick="logoutAdmin()"
-        >
-            🚪 ĐĂNG XUẤT
-        </button>
+<div
+id="status"
+></div>
 
-    </div>
+</div>
 
 
-    <a
-        href="/"
-        class="back-home"
-    >
-        ← Về HAIN FILE SHOP
-    </a>
+<!-- ================================= -->
+<!-- ĐƠN HÀNG -->
+<!-- ================================= -->
+
+<div class="box">
+
+<h2>
+📋 QUẢN LÝ ĐƠN HÀNG
+</h2>
+
+<p>
+Kiểm tra tiền đã nhận trong ZaloPay trước khi duyệt.
+</p>
+
+<button
+class="refresh"
+onclick="loadOrders()"
+>
+
+🔄 LÀM MỚI ĐƠN HÀNG
+
+</button>
+
+
+<div
+id="orders"
+>
+
+Đang tải...
+
+</div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- SẢN PHẨM -->
+<!-- ================================= -->
+
+<div class="box">
+
+<h2>
+📦 QUẢN LÝ SẢN PHẨM
+</h2>
+
+<div
+id="products"
+>
+
+Đang tải...
+
+</div>
+
+</div>
+
+
+</div>
+
 
 </div>
 
@@ -364,34 +587,46 @@
 <script>
 
 // ========================================
-// ĐĂNG NHẬP ADMIN
+// BIẾN
+// ========================================
+
+let adminPassword =
+    sessionStorage.getItem(
+        "adminPassword"
+    );
+
+
+// ========================================
+// LOGIN
 // ========================================
 
 async function loginAdmin() {
 
     const password =
         document
-            .getElementById("adminPassword")
+            .getElementById(
+                "adminPassword"
+            )
             .value
             .trim();
 
-    const loginStatus =
-        document.getElementById("loginStatus");
+    const status =
+        document
+            .getElementById(
+                "loginStatus"
+            );
 
+    if(!password) {
 
-    if (!password) {
-
-        loginStatus.innerText =
+        status.innerText =
             "❌ Vui lòng nhập mật khẩu";
 
         return;
 
     }
 
-
-    loginStatus.innerText =
+    status.innerText =
         "⏳ Đang kiểm tra...";
-
 
     try {
 
@@ -399,61 +634,54 @@ async function loginAdmin() {
             await fetch(
                 "/api/admin/login",
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
-                        password: password
-                    })
+                    body:
+                        JSON.stringify({
+
+                            password:
+                                password
+
+                        })
+
                 }
             );
 
-
-        const result =
+        const data =
             await response.json();
 
-
-        if (!response.ok) {
+        if(!response.ok) {
 
             throw new Error(
-                result.error ||
-                "Mật khẩu không đúng"
+                data.error
             );
 
         }
-
 
         sessionStorage.setItem(
             "adminPassword",
             password
         );
 
+        adminPassword =
+            password;
 
-        document
-            .getElementById("loginBox")
-            .style.display = "none";
+        showAdmin();
 
+    } catch(error) {
 
-        document
-            .getElementById("adminPanel")
-            .style.display = "block";
-
-
-        loginStatus.innerText = "";
-
-
-        // Tải danh sách sản phẩm
-        loadAdminProducts();
-
-
-    } catch (error) {
-
-        loginStatus.innerText =
-            "❌ " + error.message;
+        status.innerText =
+            "❌ " +
+            error.message;
 
     }
 
@@ -461,41 +689,34 @@ async function loginAdmin() {
 
 
 // ========================================
-// TỰ ĐỘNG ĐĂNG NHẬP
+// HIỆN ADMIN
 // ========================================
 
-window.addEventListener(
-    "DOMContentLoaded",
-    function() {
+function showAdmin() {
 
-        const savedPassword =
-            sessionStorage.getItem(
-                "adminPassword"
-            );
+    document
+        .getElementById(
+            "loginBox"
+        )
+        .style.display =
+            "none";
 
+    document
+        .getElementById(
+            "adminPanel"
+        )
+        .style.display =
+            "block";
 
-        if (savedPassword) {
+    loadOrders();
 
-            document
-                .getElementById("loginBox")
-                .style.display = "none";
+    loadProducts();
 
-
-            document
-                .getElementById("adminPanel")
-                .style.display = "block";
-
-
-            loadAdminProducts();
-
-        }
-
-    }
-);
+}
 
 
 // ========================================
-// ĐĂNG XUẤT
+// LOGOUT
 // ========================================
 
 function logoutAdmin() {
@@ -510,298 +731,174 @@ function logoutAdmin() {
 
 
 // ========================================
-// THÊM SẢN PHẨM
+// LOAD ĐƠN HÀNG
 // ========================================
 
-document
-    .getElementById("productForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
+async function loadOrders() {
 
-            event.preventDefault();
-
-
-            const password =
-                sessionStorage.getItem(
-                    "adminPassword"
-                );
-
-
-            if (!password) {
-
-                alert(
-                    "Bạn chưa đăng nhập Admin"
-                );
-
-                location.reload();
-
-                return;
-
-            }
-
-
-            const fileInput =
-                document.getElementById("file");
-
-
-            if (
-                !fileInput.files ||
-                !fileInput.files.length
-            ) {
-
-                document
-                    .getElementById("status")
-                    .innerText =
-                    "❌ Vui lòng chọn file!";
-
-                return;
-
-            }
-
-
-            const data =
-                new FormData();
-
-
-            data.append(
-                "name",
-                document
-                    .getElementById("name")
-                    .value
-                    .trim()
+    const box =
+        document
+            .getElementById(
+                "orders"
             );
 
-
-            data.append(
-                "description",
-                document
-                    .getElementById("description")
-                    .value
-                    .trim()
-            );
-
-
-            data.append(
-                "price",
-                document
-                    .getElementById("price")
-                    .value
-            );
-
-
-            data.append(
-                "category",
-                document
-                    .getElementById("category")
-                    .value
-            );
-
-
-            data.append(
-                "file",
-                fileInput.files[0]
-            );
-
-
-            data.append(
-                "password",
-                password
-            );
-
-
-            const status =
-                document
-                    .getElementById("status");
-
-
-            status.innerText =
-                "⏳ Đang tải file lên...";
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        "/api/admin/products",
-                        {
-                            method: "POST",
-                            body: data
-                        }
-                    );
-
-
-                const result =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        result.error ||
-                        "Không thể thêm sản phẩm"
-                    );
-
-                }
-
-
-                status.innerText =
-                    "✅ Thêm sản phẩm thành công!";
-
-
-                document
-                    .getElementById("productForm")
-                    .reset();
-
-
-                // Cập nhật danh sách
-                loadAdminProducts();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                status.innerText =
-                    "❌ " +
-                    error.message;
-
-            }
-
-        }
-    );
-
-
-// ========================================
-// TẢI DANH SÁCH SẢN PHẨM
-// ========================================
-
-async function loadAdminProducts() {
-
-    const productList =
-        document.getElementById(
-            "productList"
-        );
-
-
-    productList.innerHTML =
-        `
-        <div class="loading">
-            ⏳ Đang tải sản phẩm...
-        </div>
-        `;
-
+    box.innerHTML =
+        "⏳ Đang tải đơn hàng...";
 
     try {
 
         const response =
             await fetch(
-                "/api/products"
+                "/api/admin/orders",
+                {
+
+                    headers: {
+
+                        "x-admin-password":
+                            adminPassword
+
+                    }
+
+                }
             );
 
+        const orders =
+            await response.json();
 
-        if (!response.ok) {
+        if(!response.ok) {
 
             throw new Error(
-                "Không thể tải sản phẩm"
+                orders.error
             );
 
         }
 
-
-        const products =
-            await response.json();
-
-
-        if (
-            !Array.isArray(products) ||
-            products.length === 0
+        if(
+            orders.length ===
+            0
         ) {
 
-            productList.innerHTML =
-                `
-                <div class="empty">
-                    📦 Chưa có sản phẩm nào.
-                </div>
-                `;
+            box.innerHTML =
+                "📭 Chưa có đơn hàng.";
 
             return;
 
         }
 
-
-        productList.innerHTML =
-            products
+        box.innerHTML =
+            orders
                 .map(
-                    product => {
+                    order =>
+                    `
 
-                        return `
-                        <div class="product-item">
+                    <div
+                    class="order ${order.status}"
+                    >
 
-                            <div class="product-name">
-                                ${escapeHTML(
-                                    product.name
-                                )}
-                            </div>
+                        <h3>
+                        🧾 ${order.order_code}
+                        </h3>
 
-                            <div class="product-info">
+                        <p>
+                        👤 Khách:
+                        ${escapeHtml(
+                            order.customer_name
+                        )}
+                        </p>
 
-                                🆔 ID:
-                                ${product.id}
+                        <p>
+                        📧 Email:
+                        ${escapeHtml(
+                            order.customer_email ||
+                            "Không có"
+                        )}
+                        </p>
 
-                                <br>
+                        <p>
+                        📦 Sản phẩm:
+                        ${escapeHtml(
+                            order.product_name ||
+                            "Sản phẩm đã xóa"
+                        )}
+                        </p>
 
-                                💰 Giá:
-                                ${Number(
-                                    product.price
-                                ).toLocaleString(
-                                    "vi-VN"
-                                )}
-                                VNĐ
+                        <p>
+                        💰 Số tiền:
+                        <b>
+                        ${Number(
+                            order.amount
+                        ).toLocaleString(
+                            "vi-VN"
+                        )}
+                        VNĐ
+                        </b>
+                        </p>
 
-                                <br>
+                        <p>
+                        📅 Thời gian:
+                        ${order.created_at}
+                        </p>
 
-                                📂 Danh mục:
-                                ${escapeHTML(
-                                    product.category ||
-                                    "Khác"
-                                )}
+                        <p class="status">
+                        Trạng thái:
+                        ${getStatusText(
+                            order.status
+                        )}
+                        </p>
 
-                            </div>
+                        ${
+                            order.status ===
+                            "pending"
 
-                            <button
-                                type="button"
-                                class="delete-button"
-                                onclick="deleteProduct(
-                                    ${product.id},
-                                    '${escapeJS(
-                                        product.name
-                                    )}'
-                                )"
+                            ?
+
+                            `
+
+                            <div
+                            class="order-actions"
                             >
-                                🗑️ XÓA SẢN PHẨM
-                            </button>
 
-                        </div>
-                        `;
+                                <button
+                                class="approve"
+                                onclick=
+                                "approveOrder('${order.order_code}')"
+                                >
 
-                    }
+                                ✅ DUYỆT THANH TOÁN
+
+                                </button>
+
+                                <button
+                                class="cancel"
+                                onclick=
+                                "cancelOrder('${order.order_code}')"
+                                >
+
+                                ❌ HỦY ĐƠN
+
+                                </button>
+
+                            </div>
+
+                            `
+
+                            :
+
+                            ""
+
+                        }
+
+                    </div>
+
+                    `
                 )
                 .join("");
 
+    } catch(error) {
 
-    } catch (error) {
-
-        console.error(error);
-
-        productList.innerHTML =
-            `
-            <div class="empty">
-                ❌ ${escapeHTML(
-                    error.message
-                )}
-            </div>
-            `;
+        box.innerHTML =
+            "❌ " +
+            error.message;
 
     }
 
@@ -809,92 +906,75 @@ async function loadAdminProducts() {
 
 
 // ========================================
-// XÓA SẢN PHẨM
+// DUYỆT ĐƠN
 // ========================================
 
-async function deleteProduct(
-    id,
-    name
+async function approveOrder(
+    code
 ) {
 
-    const password =
-        sessionStorage.getItem(
-            "adminPassword"
-        );
-
-
-    if (!password) {
-
-        alert(
-            "Bạn chưa đăng nhập Admin"
-        );
-
-        return;
-
-    }
-
-
-    const confirmDelete =
+    const confirmApprove =
         confirm(
-            "⚠️ CẢNH BÁO\n\n" +
-            "Bạn có chắc muốn xóa sản phẩm:\n\n" +
-            name +
-            "\n\n" +
-            "File bán và dữ liệu sản phẩm " +
-            "trong database sẽ bị xóa vĩnh viễn."
+
+            "Bạn chắc chắn đã nhận tiền cho đơn " +
+            code +
+            "?"
+
         );
 
-
-    if (!confirmDelete) {
+    if(
+        !confirmApprove
+    ) {
 
         return;
 
     }
-
 
     try {
 
         const response =
             await fetch(
-                "/api/admin/products/" +
-                encodeURIComponent(id),
+
+                "/api/admin/orders/" +
+                encodeURIComponent(
+                    code
+                ) +
+                "/approve",
+
                 {
-                    method: "DELETE",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "x-admin-password":
-                            password
+                            adminPassword
+
                     }
+
                 }
+
             );
 
-
-        const result =
+        const data =
             await response.json();
 
-
-        if (!response.ok) {
+        if(!response.ok) {
 
             throw new Error(
-                result.error ||
-                "Không thể xóa sản phẩm"
+                data.error
             );
 
         }
 
-
         alert(
-            "✅ Đã xóa sản phẩm và file thành công!"
+            "✅ Đã duyệt đơn!"
         );
 
+        loadOrders();
 
-        // Tải lại danh sách
-        loadAdminProducts();
-
-
-    } catch (error) {
-
-        console.error(error);
+    } catch(error) {
 
         alert(
             "❌ " +
@@ -907,55 +987,466 @@ async function deleteProduct(
 
 
 // ========================================
-// BẢO VỆ HTML
+// HỦY ĐƠN
 // ========================================
 
-function escapeHTML(value) {
+async function cancelOrder(
+    code
+) {
 
-    return String(value || "")
-        .replace(
-            /&/g,
-            "&amp;"
+    if(
+        !confirm(
+            "Bạn có chắc muốn hủy đơn này?"
         )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
+    ) {
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+
+                "/api/admin/orders/" +
+                encodeURIComponent(
+                    code
+                ) +
+                "/cancel",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "x-admin-password":
+                            adminPassword
+
+                    }
+
+                }
+
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok) {
+
+            throw new Error(
+                data.error
+            );
+
+        }
+
+        loadOrders();
+
+    } catch(error) {
+
+        alert(
+            "❌ " +
+            error.message
         );
+
+    }
 
 }
 
 
-function escapeJS(value) {
+// ========================================
+// TRẠNG THÁI
+// ========================================
 
-    return String(value || "")
-        .replace(
-            /\\/g,
-            "\\\\"
+function getStatusText(
+    status
+) {
+
+    if(
+        status ===
+        "pending"
+    ) {
+
+        return "🟡 Chờ duyệt";
+
+    }
+
+    if(
+        status ===
+        "paid"
+    ) {
+
+        return "🟢 Đã duyệt";
+
+    }
+
+    if(
+        status ===
+        "cancelled"
+    ) {
+
+        return "🔴 Đã hủy";
+
+    }
+
+    return status;
+
+}
+
+
+// ========================================
+// THÊM SẢN PHẨM
+// ========================================
+
+document
+    .getElementById(
+        "productForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const status =
+                document
+                    .getElementById(
+                        "status"
+                    );
+
+            const fileInput =
+                document
+                    .getElementById(
+                        "file"
+                    );
+
+            if(
+                !fileInput.files.length
+            ) {
+
+                status.innerText =
+                    "❌ Vui lòng chọn file";
+
+                return;
+
+            }
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "name",
+                document
+                    .getElementById(
+                        "name"
+                    )
+                    .value
+            );
+
+            formData.append(
+                "description",
+                document
+                    .getElementById(
+                        "description"
+                    )
+                    .value
+            );
+
+            formData.append(
+                "price",
+                document
+                    .getElementById(
+                        "price"
+                    )
+                    .value
+            );
+
+            formData.append(
+                "category",
+                document
+                    .getElementById(
+                        "category"
+                    )
+                    .value
+            );
+
+            formData.append(
+                "file",
+                fileInput.files[0]
+            );
+
+            formData.append(
+                "password",
+                adminPassword
+            );
+
+            status.innerText =
+                "⏳ Đang upload...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/admin/products",
+                        {
+
+                            method:
+                                "POST",
+
+                            body:
+                                formData
+
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if(!response.ok) {
+
+                    throw new Error(
+                        data.error
+                    );
+
+                }
+
+                status.innerText =
+                    "✅ Thêm sản phẩm thành công!";
+
+                document
+                    .getElementById(
+                        "productForm"
+                    )
+                    .reset();
+
+                loadProducts();
+
+            } catch(error) {
+
+                status.innerText =
+                    "❌ " +
+                    error.message;
+
+            }
+
+        }
+    );
+
+
+// ========================================
+// LOAD PRODUCTS
+// ========================================
+
+async function loadProducts() {
+
+    const box =
+        document
+            .getElementById(
+                "products"
+            );
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/products"
+            );
+
+        const products =
+            await response.json();
+
+        if(
+            products.length ===
+            0
+        ) {
+
+            box.innerHTML =
+                "📭 Chưa có sản phẩm.";
+
+            return;
+
+        }
+
+        box.innerHTML =
+            products
+                .map(
+                    product =>
+                    `
+
+                    <div
+                    class="product"
+                    >
+
+                        <div>
+
+                            <b>
+                            ${escapeHtml(
+                                product.name
+                            )}
+                            </b>
+
+                            <br>
+
+                            💰
+                            ${Number(
+                                product.price
+                            ).toLocaleString(
+                                "vi-VN"
+                            )}
+                            VNĐ
+
+                            <br>
+
+                            📁
+                            ${escapeHtml(
+                                product.category
+                            )}
+
+                        </div>
+
+                        <button
+                        class="delete"
+                        onclick=
+                        "deleteProduct(${product.id})"
+                        >
+
+                        🗑️ XÓA
+
+                        </button>
+
+                    </div>
+
+                    `
+                )
+                .join("");
+
+    } catch(error) {
+
+        box.innerHTML =
+            "❌ Không thể tải sản phẩm";
+
+    }
+
+}
+
+
+// ========================================
+// XÓA SẢN PHẨM
+// ========================================
+
+async function deleteProduct(
+    id
+) {
+
+    if(
+        !confirm(
+            "Xóa sản phẩm này và file bán luôn?"
         )
-        .replace(
-            /'/g,
-            "\\'"
-        )
-        .replace(
-            /\n/g,
-            "\\n"
-        )
-        .replace(
-            /\r/g,
-            "\\r"
+    ) {
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+
+                "/api/admin/products/" +
+                id,
+
+                {
+
+                    method:
+                        "DELETE",
+
+                    headers: {
+
+                        "x-admin-password":
+                            adminPassword
+
+                    }
+
+                }
+
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok) {
+
+            throw new Error(
+                data.error
+            );
+
+        }
+
+        alert(
+            "✅ Đã xóa sản phẩm và file!"
         );
+
+        loadProducts();
+
+    } catch(error) {
+
+        alert(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+}
+
+
+// ========================================
+// ESCAPE HTML
+// ========================================
+
+function escapeHtml(
+    text
+) {
+
+    return String(
+        text || ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// ========================================
+// TỰ ĐỘNG LOGIN
+// ========================================
+
+if(
+    adminPassword
+) {
+
+    showAdmin();
 
 }
 
