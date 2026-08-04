@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
+
+<meta charset="UTF-8">
 
 <meta
     name="viewport"
@@ -19,326 +19,371 @@
 
 </head>
 
+
 <body>
+
 
 <header>
 
+    <div class="logo">
+        🎮 HAIN FILE SHOP
+    </div>
 
-<div class="logo">
-    🎮 HAIN FILE SHOP
-</div>
 
-<div class="header-actions">
+    <div class="header-actions">
 
-    <input
-        id="searchInput"
-        type="text"
-        placeholder="Tìm sản phẩm..."
-    >
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Tìm sản phẩm..."
+            onkeydown="
+                if(event.key === 'Enter')
+                searchProduct()
+            "
+        >
 
-    <button
-        onclick="searchProduct()"
-    >
-        🔍
-    </button>
 
-    <button
-        onclick="openCart()"
-    >
-        🛒 Giỏ hàng
-        <span id="cartCount">0</span>
-    </button>
+        <button
+            onclick="searchProduct()"
+        >
+            🔍
+        </button>
 
-</div>
 
+        <button
+            onclick="openCart()"
+        >
+            🛒 Giỏ hàng
+            <span id="cartCount">
+                0
+            </span>
+        </button>
+
+    </div>
 
 </header>
 
+
+
 <nav>
 
+    <a href="/">
+        🏠 Trang chủ
+    </a>
 
-<a href="/">
-    🏠 Trang chủ
-</a>
+    <a href="#products">
+        🛍️ Sản phẩm
+    </a>
 
-<a href="#products">
-    🛍️ Sản phẩm
-</a>
+    <a href="#products">
+        🎮 Free Fire
+    </a>
 
-<a href="#products">
-    🎮 Free Fire
-</a>
+    <a href="#products">
+        🧩 Preset
+    </a>
 
-<a href="#products">
-    🧩 Preset
-</a>
+    <a href="#products">
+        🎯 HUD
+    </a>
 
-<a href="#products">
-    🎯 HUD
-</a>
-
-<a href="/admin.html">
-    ⚙️ Admin
-</a>
-
+    <a href="/admin.html">
+        ⚙️ Admin
+    </a>
 
 </nav>
 
+
+
 <section class="hero">
 
+    <h1>
+        HAIN FILE SHOP
+    </h1>
 
-<h1>
-    HAIN FILE SHOP
-</h1>
+    <p>
+        Kho file game và preset chất lượng
+    </p>
 
-<p>
-    Kho file game và preset chất lượng
-</p>
-
-<a
-    href="#products"
-    class="hero-button"
->
-    XEM SẢN PHẨM
-</a>
-
+    <a
+        href="#products"
+        class="hero-button"
+    >
+        XEM SẢN PHẨM
+    </a>
 
 </section>
+
+
 
 <section class="categories">
 
+    <h2>
+        ⚡ DANH MỤC
+    </h2>
 
-<h2>
-    ⚡ DANH MỤC
-</h2>
 
-<div class="category-list">
+    <div class="category-list">
 
-    <button
-        onclick="filterProducts('all')"
-    >
-        🏠 Tất cả
-    </button>
+        <button
+            onclick="
+                filterProducts('all')
+            "
+        >
+            🏠 Tất cả
+        </button>
 
-    <button
-        onclick="filterProducts('Free Fire')"
-    >
-        🎮 Free Fire
-    </button>
 
-    <button
-        onclick="filterProducts('Minecraft')"
-    >
-        ⛏️ Minecraft
-    </button>
+        <button
+            onclick="
+                filterProducts('Free Fire')
+            "
+        >
+            🎮 Free Fire
+        </button>
 
-    <button
-        onclick="filterProducts('Preset')"
-    >
-        🧩 Preset
-    </button>
 
-    <button
-        onclick="filterProducts('HUD')"
-    >
-        🎯 HUD
-    </button>
+        <button
+            onclick="
+                filterProducts('Minecraft')
+            "
+        >
+            ⛏️ Minecraft
+        </button>
 
-    <button
-        onclick="filterProducts('Khác')"
-    >
-        📦 Khác
-    </button>
 
-</div>
+        <button
+            onclick="
+                filterProducts('Preset')
+            "
+        >
+            🧩 Preset
+        </button>
 
+
+        <button
+            onclick="
+                filterProducts('HUD')
+            "
+        >
+            🎯 HUD
+        </button>
+
+
+        <button
+            onclick="
+                filterProducts('Khác')
+            "
+        >
+            📦 Khác
+        </button>
+
+    </div>
 
 </section>
+
+
 
 <section
     id="products"
     class="products-section"
 >
 
+    <h2>
+        🔥 SẢN PHẨM
+    </h2>
 
-<h2>
-    🔥 SẢN PHẨM
-</h2>
 
-<div
-    id="productGrid"
-    class="product-grid"
->
+    <div
+        id="productGrid"
+        class="product-grid"
+    >
 
-    <p>
-        Đang tải sản phẩm...
-    </p>
+        <p>
+            ⏳ Đang tải sản phẩm...
+        </p>
 
-</div>
-
+    </div>
 
 </section>
 
+
+
 <footer>
 
+    <p>
+        © 2026 HAIN FILE SHOP
+    </p>
 
-<p>
-    © 2026 HAIN FILE SHOP
-</p>
-
-<p>
-    Cần hỗ trợ? Hãy liên hệ với HAIN.
-</p>
-
+    <p>
+        Cần hỗ trợ? Hãy liên hệ với HAIN.
+    </p>
 
 </footer>
 
-<!-- SUPPORT CHAT -->
+
 
 <a
-href="https://www.facebook.com/nguienanhain222"
-target="_blank"
-rel="noopener noreferrer"
-class="support-chat"
-
+    href="https://www.facebook.com/nguienanhain222"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="support-chat"
 >
 
+    💬
 
-💬
-
-<span>
-    Support Chat
-</span>
-
+    <span>
+        Support Chat
+    </span>
 
 </a>
 
-<!-- PAYMENT MODAL -->
+
+
+<!-- ================================ -->
+<!-- THANH TOÁN -->
+<!-- ================================ -->
 
 <div
     id="paymentModal"
     class="modal"
 >
 
+    <div class="payment-box">
 
-<div class="payment-box">
 
-    <button
-        class="close-btn"
-        onclick="closePayment()"
-    >
-        ×
-    </button>
+        <button
+            class="close-btn"
+            onclick="closePayment()"
+        >
+            ×
+        </button>
 
-    <h2>
-        💳 THANH TOÁN
-    </h2>
 
-    <div
-        id="orderInfo"
-    >
-    </div>
+        <h2>
+            💳 THANH TOÁN
+        </h2>
 
-    <div class="qr-box">
 
-        <img
-            src="/qr-payment.png"
-            id="paymentQR"
-            alt="QR Thanh Toán"
+        <div id="orderInfo">
+
+            <p>
+                🧾 Mã đơn:
+                <strong
+                    id="orderCode"
+                >
+                    -
+                </strong>
+            </p>
+
+
+            <p>
+                💰 Số tiền:
+                <strong
+                    id="orderAmount"
+                >
+                    -
+                </strong>
+            </p>
+
+        </div>
+
+
+
+        <div class="qr-box">
+
+            <img
+                src="/qr-payment.png"
+                id="paymentQR"
+                alt="QR ZaloPay"
+            >
+
+        </div>
+
+
+
+        <p class="qr-text">
+
+            📱 Quét mã QR để thanh toán
+
+        </p>
+
+
+
+        <div class="payment-warning">
+
+            ⚠️ Sau khi chuyển khoản,
+            hãy giữ nguyên mã đơn hàng.
+            Shop sẽ kiểm tra giao dịch
+            và xác nhận thanh toán.
+
+        </div>
+
+
+
+        <p>
+            Nội dung chuyển khoản:
+        </p>
+
+
+        <div class="transfer-content">
+
+            <strong
+                id="transferContent"
+            >
+                -
+            </strong>
+
+        </div>
+
+
+
+        <input
+            id="checkOrderCode"
+            placeholder="Nhập mã đơn hàng"
         >
 
-    </div>
 
-    <p class="qr-text">
 
-        📱 Quét mã QR phía trên
-        để thanh toán.
-
-    </p>
-
-    <div class="payment-warning">
-
-        ⚠️ Sau khi chuyển khoản,
-        hãy giữ nguyên mã đơn hàng
-        để kiểm tra thanh toán.
-
-    </div>
-
-    <div class="order-code">
-
-        Mã đơn hàng:
-
-        <strong
-            id="orderCode"
+        <button
+            class="pay-button"
+            onclick="checkPayment()"
         >
-            -
-        </strong>
 
-    </div>
+            🔍 KIỂM TRA THANH TOÁN
 
-    <div class="payment-amount">
+        </button>
 
-        Số tiền:
 
-        <strong
-            id="orderAmount"
+
+        <div
+            id="paymentStatus"
         >
-            -
-        </strong>
+        </div>
 
-    </div>
 
-    <p>
-        Nội dung chuyển khoản:
-    </p>
 
-    <div class="transfer-content">
-
-        <strong
-            id="transferContent"
+        <a
+            id="downloadButton"
+            class="download-button"
+            style="display:none"
         >
-            -
-        </strong>
+
+            📥 TẢI FILE
+
+        </a>
+
 
     </div>
-
-    <input
-        id="checkOrderCode"
-        placeholder="Nhập mã đơn hàng"
-    >
-
-    <button
-        class="pay-button"
-        onclick="checkPayment()"
-    >
-
-        🔍 KIỂM TRA THANH TOÁN
-
-    </button>
-
-    <div
-        id="paymentStatus"
-    >
-    </div>
-
-    <a
-        id="downloadButton"
-        class="download-button"
-        style="display:none"
-    >
-
-        📥 TẢI FILE
-
-    </a>
 
 </div>
 
 
-</div>
 
 <script
     src="./script.js"
 ></script>
+
 
 </body>
 
